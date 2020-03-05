@@ -7,5 +7,7 @@ class User < ActiveRecord::Base
     validates_presence_of :name, :email, :password
     validates_uniqueness_of :email
 
+    #if slug is taken, how can i edit to make ok?  right now use id, then go back and figure this out.
+
 
   end

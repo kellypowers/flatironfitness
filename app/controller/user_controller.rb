@@ -8,7 +8,7 @@ class UserController < ApplicationController
     use Rack::Flash 
                 
     get '/signup' do
-        logged_in? ? (redirect to "/users/home") : (erb :'/users/signup')
+        logged_in? ? (redirect to "/users/:id") : (erb :'/users/signup')
     end
  
     #add a message if email is taken?
@@ -17,7 +17,7 @@ class UserController < ApplicationController
         if params[:user][:password] == params[:password2]
             @user.save
             session[:user_id] = @user.id
-            redirect "/users/:slug"
+            redirect "/users/:id"
         else
             flash[:message] = "Passwords don't match"
             redirect "/signup"
@@ -26,27 +26,27 @@ class UserController < ApplicationController
     end
 
     get '/login' do
-        logged_in? ? (redirect '/users/:slug') : (erb :'users/login')
+        logged_in? ? (redirect '/users/:id') : (erb :'users/login')
     end
 
     post '/login' do
         @user = User.find_by(email: params["user"]["email"])
         if @user && @user.authenticate(params["user"]["password"])
             session[:user_id] = @user.id
-            redirect '/users/:slug'
+            redirect '/users/:id'
         else
             flash[:message] = "Invalid username/password. Please sign up."
             redirect '/registrations/signup'
         end
     end
 
-    #this will be home page
-    get '/users/:slug' do 
+    #this will be home page, if can figure out how to make slugs unique even if names are same.. use slug instead of id
+    get '/users/:id' do 
         if logged_in?
             # @user = User.find_by_slug(params[:slug])
             @user = User.find_by_id(params[:id])
             #is this validation ok/needed?
-            if @user.slug == params[:slug]
+            if @user.id == params[:id]
                 #should check for this in views
                 #!@user.workouts.empty? ? (@workouts = @user.workouts) : (@workouts = nil)
                 @workouts = @user.workouts 
@@ -54,21 +54,21 @@ class UserController < ApplicationController
                 erb :'/users/home'
             else
                 flash[:message] = "You don't have permissions for that profile."
-                redirect :"/users/#{current_user.slug}"
+                redirect :"/users/#{current_user.id}"
             end
         else
             redirect '/'
         end
     end
 
-    get '/users/:slug/account' do
+    get '/users/:id/account' do
         if logged_in?
             @user = User.find(session[:user_id])
-            if @user.slug == params[:slug]
+            if @user.id == params[:id]
                 erb :'/users/account'
             else
                 flash[:message] = "You don't have permissions for that account."
-                redirect :"/users/#{current_user.slug}/account"
+                redirect :"/users/#{@current_user.id}/account"
             end
         else
             flash[:message] = "Please log in to access your account."
@@ -76,14 +76,43 @@ class UserController < ApplicationController
         end
     end
 
-    #should i put  if @user.slug == params[:slug] i a validation method in model?
-    get '/users/:slug/edit' do 
+    #should i put  [logged_in? if @user.id == params[:id] ] in a validation method in model to DRY?
+    get '/users/:id/edit' do 
         if logged_in?
-            if @user.slug == params[:slug]
+            if @user.id == params[:id]
                 erb :"users/edit"
             end
         else 
             redirect to '/login'
+        end
+    end
+
+    patch '/users/:id' do 
+        @user = User.find(session[:user_id])
+        if !@user.authenticate(params[:password])
+            flash[:message] = "Please type in your current password to make changes"
+            redirect to "/users/#{@user.id}/edit"
+        else
+            @user.password = params[:password]
+            if !params["new_password"].empty? 
+                if params["new_password"] == params["new_password_2"]
+                    @user.password = params[:new_password]
+                    @user.save
+                else
+                    flash[:message] = "New passwords do not match"
+                    redirect "/useres/#{@user.id}/edit"
+                end
+            end
+            if params["email"] != @user.email 
+                @user.email = params[:email]
+                #do i want to prompt "do you want to change THIS to THAT" ?
+            end
+            if params["name"] != @user.name 
+                @user.name = params[:name]
+                @user.save
+            end
+            flash[:message] = "Account info successfully edited"
+            redirect "/users/#{@user.id}/account"
         end
     end
 
