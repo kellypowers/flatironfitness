@@ -12,7 +12,7 @@ class ApplicationController < Sinatra::Base
       #set :src_folder, 'src'
     end
   
-    get '/' do
+    get '/' do~
       if logged_in?
         redirect to "/users/home"
       else
