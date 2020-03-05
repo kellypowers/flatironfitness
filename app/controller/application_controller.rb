@@ -12,9 +12,9 @@ class ApplicationController < Sinatra::Base
       #set :src_folder, 'src'
     end
   
-    get '/' do~
+    get '/' do
       if logged_in?
-        redirect to "/users/home"
+        redirect to "/users/:slug/home"
       else
         erb :home
       end
@@ -28,7 +28,10 @@ class ApplicationController < Sinatra::Base
       def logged_in?
         !!current_user
       end
-  
+      
+      def empty_fields?(hash)
+        hash.values.any? {|x| x.nil? || x.empty?}
+      end
   
     end
   end
