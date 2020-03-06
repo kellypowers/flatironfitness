@@ -1,0 +1,93 @@
+
+body {
+    background: url(../mission.svg) center no-repeat;
+    background-size: 40%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}    
+
+
+#flash_message {
+ color: red;
+ font-family: 'Times New Roman', Times, serif
+} 
+
+
+
+header h1 {
+    text-align: center;
+}
+
+
+
+.nav_links a:hover{
+    background-color: black;
+    color: white;
+}
+
+
+#sidenav {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 160px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #111; /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+  }
+
+  /* The navigation menu links */
+..nav_links a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+#sidenav a {
+    padding: 10px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+  }
+
+  #sidenav a:hover {
+    color: #f1f1f1;
+  }
+
+ #main {
+  margin-left: 160px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+.button {
+    padding: 15px;
+    margin: 50px;
+    border-radius: 15px;
+    border-color: black;
+    border-style: solid;
+    width: 140px;
+    height: 20px;
+    background-color: black;
+    display: inline-block;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+    z-index: 1;
+}
+
+.button a {
+    text-decoration: none;
+    color: blanchedalmond;
+}
+
+.button:hover {
+    background-color: white;
+    color: black;
+}
+
+.button a:hover{
+    color: black;
+}
