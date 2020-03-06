@@ -1,0 +1,15 @@
+<div class="heading h2">
+    <h2>Workouts</h2> 
+</div>
+<div class="index"
+   <ul>
+    <%@user.workouts.each do |workout|%>
+        <li><a href="workouts/<%=workout.id%>"><%=workout.category%></a></li>
+        <li>Date: <%=workout.date_printed%></li>
+        <li>Time: <%=workout.time%> <%=workout.time_units%></li>
+        <%if workout.comment != nil%>
+            <li> <%=workout.comment%></li> 
+        <%end%>
+    <%end%> 
+    </ul>
+</div> 

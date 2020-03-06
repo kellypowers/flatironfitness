@@ -9,7 +9,7 @@ class WorkoutController < ApplicationController
 
     get '/workouts/new' do 
         @user = User.find_by_id(params[:id])
-        @workouts = @user.workouts
+        #@workouts = @user.workouts
         #@workouts = Workout.all
         erb :'/workouts/new'
     end
@@ -35,7 +35,7 @@ class WorkoutController < ApplicationController
         #puts params
         @workout.user_id = @user.id
         @workout.save
-        binding.pry
+        #binding.pry
         erb :'/workouts/index'
     end
 
@@ -58,7 +58,8 @@ class WorkoutController < ApplicationController
     #   end
 
 
-      delete "workouts/:id" do 
+    delete "workouts/:id" do 
         Workout.destroy(params[:id])
         redirect to "/workouts"
-      end
+    end
+end
