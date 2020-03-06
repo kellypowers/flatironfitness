@@ -1,0 +1,31 @@
+
+<div id="flash_message">
+    <% if flash.include?(:message) %>
+        <%= flash[:message] %>
+    <% end %>
+</div>
+<div class="heading h2">
+    <h2>Log In Below:</h2>
+</div>
+<div class="form">
+    <form class="form" method="post" action="/login">
+        <div class="form_input">
+            <label for="email">Email: </label>
+            <input id="email" type="text" placeholder="example@example.com" name="user[email]">
+        </div>
+        <div class="form_input">
+            <label for="password">Password: </label>
+            <input id="password" type="password" placeholder="********" name="user[password]">
+        </div>
+        <div class="button">
+        <input type="submit" value="Log In">
+        </div>
+
+    </form>
+</div>
+
+<%# add a forgot password? link that sends password %>
+<br>
+<div class="button">
+    <a class="button" href="/registrations/signup">Sign Up</a>
+</div>

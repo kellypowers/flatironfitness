@@ -1,21 +1,38 @@
-<% if flash.include?(:message) %>
-<%= flash[:message] %>
-<% end %>
-<h2>Sign Up Below:</h2>
-    <form method="post" action="/signup">
+<div class="flash_message">
+    <% if flash.include?(:message) %>
+        <%= flash[:message] %>
+    <% end %>
+</div>
+<div class="heading h2">
+    <h2>Sign Up Below:</h2>
+</div>
+<div class="form">
+<form method="post" action="/signup">
+    <div class="form_input">
         <label for="name">Name: </label>
         <input id="name" type="text" name="user[name]">
-
+    </div>
+    <div class="form_input">
         <label for="email">Email: </label>
         <input id="email" type="text" name="user[email]">
-    <br> <br>
+    </div>
+    <br>
+    <div class="form_input">
         <label for="password">Password: </label>
         <input id="password" type="password" name="user[password]">
-        Verify Password:
+    </div>
+    <div class="form_input">
+        <label for="verify">Verify Password:</label>
         <input id="password2" type="password" name="password2">
-
+    </div>
+    <div class="button">
         <input type="submit" value="Sign Up">
+    </div>
 
-    </form>
-    <br>
-     <a href="/sessions/login">Log in</a>
+</form>
+</div>
+<br>
+
+<div class="button">
+    <a href="/sessions/login">Log in</a>
+</div>
