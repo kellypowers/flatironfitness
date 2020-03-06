@@ -10,8 +10,6 @@ class UserController < ApplicationController
     get '/users/home' do
         if logged_in?
             @user = User.find(session[:user_id])
-            @workouts = @user.workouts
-            @goals = @user.goals
             erb :'users/home'
         else
             erb :'/users/login'
