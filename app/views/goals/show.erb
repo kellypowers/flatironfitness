@@ -1,0 +1,21 @@
+<div class="heading h2">
+    <h2>Goal <%=@goal.id%></h2> 
+</div>
+
+<ul>   
+        <li><%=@goal.category%>
+        <%=@goal.date_printed%></li> </ul>
+        <li>Time: <%=@goal.time%> <%=@goal.time_units%></li> 
+        <%if @goal.description != nil%>
+        <li>Description: <%=@goal.description%></li> 
+        <%end%>
+        
+
+</ul> 
+<div class="button">
+    <a href="/goals/<%=@goal.id%>/edit">Edit this workout</a>
+</div>
+
+<div class="button">
+    <a href="goals/<%@goal.id%>"> Delete this goal </a>
+</div>
