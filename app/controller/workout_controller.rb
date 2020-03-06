@@ -32,6 +32,13 @@ class WorkoutController < ApplicationController
     post '/workouts' do 
         @user = User.find(session[:user_id])
         @workout = Workout.create(params["workout"])
+        valid_goals = Goal.valid_date_and_category
+        #finds goals that apply to the workout and adds ids of workout and goal to workout_goal table
+        valid_goals.each do |goal|
+            if @workout.is_in_goal_date?(goal.start_date, goal.end_date) && @workout.is_in_goal_category?(goal.category)
+                WorkoutGoals.create(workout_id: @workout.id, goal_id: goal.id)
+            end
+        end
         #puts params
         @workout.user_id = @user.id
         @workout.save
@@ -39,23 +46,13 @@ class WorkoutController < ApplicationController
         erb :'/workouts/index'
     end
 
-    # patch "/workouts/:id" do 
-    #     @workout = Workout.find(params[:id])
-    #     @user = User.find(session[:user_id])
-    #     @user.update(params[:user])
-    #     params["workout"].each do |key, value|
-    #         binding.pry
-    #         if value = ""
-    #             @workout.send("#{key}") = null
-    #         else
-    #             @workout.send("#{key}") = value
-    #         end
-    #     end
-    #     @workout.save
-    #     @user.workouts << @workout
-    #     #@workout.update(params[:workout])
-    #     redirect to "/workouts/#{@workout.id}"
-    #   end
+    patch "/workouts/:id" do 
+        @workout = Workout.find(params[:id])
+        @user = User.find(session[:user_id])
+        @workout.update(params["workout"])
+        @workout.save
+        redirect to "/workouts/#{@workout.id}"
+    end
 
 
     delete "workouts/:id" do 

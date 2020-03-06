@@ -1,0 +1,17 @@
+<div class="heading h2">
+    <h2>Workout <%=@workout.id%></h2> 
+</div>
+
+<ul>   
+        <li><%=@workout.category%>
+        <%=@workout.date_printed%></li> </ul>
+        <li>Time: <%=@workout.time%> <%=@workout.time_units%></li> 
+        <%if @workout.comment != nil%>
+        <li>Comments: <%=@workout.comment%></li> 
+        <%end%>
+        
+
+</ul> 
+<div class="button">
+    <a href="/workouts/<%=@workout.id%>/edit">Edit this workout</a>
+</div>

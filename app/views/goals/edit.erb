@@ -1,0 +1,56 @@
+<div class="heading h2">
+    <h2>Create New Goal</h2>
+</div>
+
+<div class="form">
+<form action="/goals/<%=@goal.id%>" method="post">
+<input type="hidden" name="_method" value="patch">
+    <br>
+    <div class="form_input_select">
+        <label for="goal_category">Select type of workout</label>
+        <%# <input list="category" id="category" name="workout[category]" /> %>
+         <select name="goal[category]">
+            <option value="Warmup/Stretch" <%selected if @goal.category == "Warmup/Stretch"%>> Warmup / Stretch </option>
+            <option value="Cardio" <%selected if @goal.category == "Cardio"%>>Cardio</option>
+            <option value="Weights" <%selected if @goal.category == "Weights"%>>Weights</option>
+            <option value="Other" <%selected if@goal.category == "Other"%>>Other</option>
+        </select>
+    </div>
+    <br>
+    <div class="form_input_date">
+        <label for="start_date">Start Date</label>
+        <input id="start_date" type="date" name="goal[start_date]" value="<%=@goal.start_date%>" required>
+    </div>
+    <br>
+        <div class="form_input_date">
+        <label for="end_date">End Date</label>
+        <input id="end_date" type="date" name="goal[end_date]" value="<%=@goal.end_date%>" required>
+    </div>
+    <br>
+    <div class="form_input_integer">
+        <label for="goal_time">Time:</label>
+        <input id="goal_time" type="integer" name="goal[time]" value="<%=@goal.time%>" required> 
+    </div>
+    <div class="form_input_radio">
+        Minute(s)<input type="radio" name="goal[time_units]" value="minute(s)" <%selected if @goal.time_units == "minute(s)"%> required> 
+    </div>
+    <div class="form_input_radio">
+        Hour(s)<input type="radio"name="workout[time_units]" value="hour(s)" <%selected if @goal.time_units == "hour(s)"%> required> 
+    </div>
+    <br>
+    <div class="form_input_textarea">
+        <label for="goal_description">Description of goal/ extra details</label>
+        <input id="goal_description" type="textarea" name="goal[description]" value="<%@goal.description%>">
+    </div>
+    <br>
+    <div class="button">
+        <input type="submit" value="Edit this goal">
+    </div>
+</form> 
+</div>
+
+    <a href="/goals">Goals</a>
+
+<div class="button">
+    <a href="goals/<%@goal.id%>"> Delete this goal </a>
+</div>
