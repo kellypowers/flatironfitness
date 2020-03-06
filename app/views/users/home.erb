@@ -3,33 +3,32 @@
     <h4> <%=@user.name%>'s Current Goal </h4>
 </div>
 
-<%# this needs to go in a model method, parse date. first need to be able to create goals. then chekc if goal is current and display that goal %>
-    <%# <%if @user.goals.end_date %> 
-    <%# <%@user.goals.current_goal%> 
-
-<%# <%@user.goals.all do |goal|%> 
-<%# <%if goal.is_current?%> 
-<%# <%=goal.name%> 
-<%# <%=goal.description%> 
-<%# <%=goal.progress%> 
-<%# <%end%>
-
-<div class="button">
-    <a href="/goals/new" >Add A Goal</a>
-</div>
-
-<div class="heading h4">
-    <h4> <%=@user.name%>'s Workouts </h4>
-</div>
-<div class="iterating links">
-<ul>
-    <%@workouts.each do |workout|%>
-        <li class="text-center"><a href="/workouts/<%=workout.id%>"><%=workout.category%> </a></li> 
-        <ul><li><%=workout.date_printed%></li></ul>
+<%@user.goals.all do |goal|%> 
+    <%if goal.is_current?%> 
+        <%workouts_in_goal = Workout.all_in_goal(goal.category, goal.start_date, goal.end_date)%>
+        <%min_done_for_goal = total_minutes_towards_goal(workouts_in_goal)%>
+        <%=goal.category%> 
+        <%=goal.time%> <%=goal.time_units%>  
+        Start: <%=goal.start_date%> End:  <%=goal.end_date%> 
+        <%=goal.description%> 
+        <%=goal.progress(goal, min_done_for_goal)%> 
+        <%=goal.workout_progress(min_done_for_goal, goal)%>
     <%end%>
-</ul>
-</div> 
+<%end%>
 
 <div class="button">
-    <a href="/workouts/new" class="content-center pb-2 bg-gray-700 hover:border-gray-800 hover:bg-white hover:text-gray-700 text-white font-bold py-2 px-4 rounded" >Add New Workout</a>
+    <a href="/goals/new" >Add a goal</a>
+</div>
+
+<div class="button">
+    <a href="/goals/index" >View all goals</a>
+</div>
+
+
+<div class="button">
+    <a href="/workouts/new">Add new workout</a>
+</div>
+
+<div class="button">
+    <a href="/workouts/index">View all workouts</a>
 </div>

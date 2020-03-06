@@ -1,6 +1,4 @@
 class Workout < ActiveRecord::Base
-    # extend Slugifiable::ClassMethods
-    # include Slugifiable::InstanceMethods
     belongs_to :user
     has_many :goals, through: :workout_goals
     
@@ -56,23 +54,23 @@ class Workout < ActiveRecord::Base
         total
     end
 
-    def progress(total_minutes, goal)
-        goal_minutes = goal.time_unit_minutes
-        amount_completed = nil
-        if goal_minutes > total_minutes 
-            amount_completed = goal_minutes / total_minutes * 100 
-            if total_minutes = 0 
-                "Get started on meeting your goal of #{goal_minutes} minutes of #{goal.category}!"
-            end
-            if amount_completed < 50 
-                "Keep it up! you are #{amount_completed}% of your way to your goal!"
-            else
-                "You are almost there! You are #{amount_completed} of your way to your goal!"
-            end
-        else
-            "You have reached your goal! Congrats!"
-        end
-    end
+    # def workout_progress(total_minutes, goal)
+    #     goal_minutes = goal.time_unit_minutes
+    #     amount_completed = nil
+    #     if goal_minutes > total_minutes 
+    #         amount_completed = goal_minutes / total_minutes * 100 
+    #         if total_minutes = 0 
+    #             "Get started on meeting your goal of #{goal_minutes} minutes of #{goal.category}!"
+    #         end
+    #         if amount_completed < 50 
+    #             "Keep it up! you are #{amount_completed}% of your way to your goal!"
+    #         else
+    #             "You are almost there! You are #{amount_completed} of your way to your goal!"
+    #         end
+    #     else
+    #         "You have reached your goal! Congrats!"
+    #     end
+    # end
             
 
 
