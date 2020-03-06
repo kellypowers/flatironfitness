@@ -10,7 +10,7 @@ class Goal < ActiveRecord::Base
     def is_current?
         start_time = Date.parse(self.start_date.to_s)
         end_time = Date.parse(self.end_date.to_s)
-        date_string = Date.parse(Time.now)
+        date_string = Date.parse(Time.now.to_s)
         if date_string.between?(start_time, end_time)
             true
         else
@@ -33,45 +33,60 @@ class Goal < ActiveRecord::Base
         valid_date_and_cat = []
         self.select_current.each do |each_current_goal|
             if each_current_goal.category == category 
-                valid_cat << each_current_goal
+                valid_date_and_cat << each_current_goal
             end
         end
         valid_date_and_cat 
     end
                 
     def time_unit_minutes
-        if self.time_units == "minutes"
-            self.time 
+        time = nil
+        if self.time != 0
+            if self.time_units == "minute(s)"
+                time = self.time 
+            else
+                time = self.time * 60
+            end
         else
-            self.time / 60 
+            time = self.time
         end
+        time
     end
 
     #will ahve to do if workout is in goal date range first
     #have to incorporate ALL workouts that are valid
     def time_left(current_goal, total_workout_minutes_towards_goal)
-        time_left = 0
-        if current_goal.time_unit_minutes > total_workout_minutes_towards_goal
-            time_left = current_goal.time_unit_minutes - total_workout_minutes_towards_goal
+        time_left = nil
+        if total_workout_minutes_towards_goal != 0 
+            if current_goal.time_unit_minutes > total_workout_minutes_towards_goal
+                time_left = current_goal.time_unit_minutes - total_workout_minutes_towards_goal
+                "You have #{time_left} minutes of #{current_goal.category} left to go!"
+            elsif current_goal.time_unit_minutes < total_workout_minutes_towards_goal
+                "Zero minutes left to go! You did it!"
+            # else
+            #     "You have #{time_left} minutes of #{current_goal.category} left to go!"
+            end
+        else 
+            "You have #{current_goal.time} #{current_goal.time_units} of #{current_goal.category} left to go!" 
         end
-        "You have #{time_left} minutes of #{current_goal.category} left to go!"
     end
 
     def workout_progress(total_minutes, goal)
         goal_minutes = goal.time_unit_minutes
         amount_completed = nil
-        if goal_minutes > total_minutes 
-            amount_completed = goal_minutes / total_minutes * 100 
-            if total_minutes = 0 
-                "Get started on meeting your goal of #{goal_minutes} minutes of #{goal.category}!"
-            end
-            if amount_completed < 50 
-                "Keep it up! you are #{amount_completed}% of your way to your goal!"
+        if total_minutes != 0 
+            if goal_minutes > total_minutes 
+                amount_completed = (total_minutes.to_f / goal_minutes.to_f * 100).to_i 
+                if amount_completed < 50 
+                    "Keep it up! you are #{amount_completed}% of your way to your goal!"
+                else
+                    "You are almost there! You have completed #{amount_completed}% of your goal!"
+                end
             else
-                "You are almost there! You are #{amount_completed} of your way to your goal!"
+                "You have reached your goal! Congrats!"
             end
-        else
-            "You have reached your goal! Congrats!"
+        else 
+            "Get started on meeting your goal of #{goal_minutes} minutes of #{goal.category}!"
         end
     end
 

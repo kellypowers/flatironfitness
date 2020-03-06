@@ -4,6 +4,8 @@ class WorkoutController < ApplicationController
 
     get '/workouts' do 
         @user = User.find(session[:user_id])
+        #binding.pry
+        @workouts = Workout.all
         erb :'/workouts/index'
     end
 
@@ -32,11 +34,11 @@ class WorkoutController < ApplicationController
     post '/workouts' do 
         @user = User.find(session[:user_id])
         @workout = Workout.create(params["workout"])
-        valid_goals = Goal.valid_date_and_category
+        valid_goals = Goal.valid_date_and_category(@workout.category)
         #finds goals that apply to the workout and adds ids of workout and goal to workout_goal table
         valid_goals.each do |goal|
-            if @workout.is_in_goal_date?(goal.start_date, goal.end_date) && @workout.is_in_goal_category?(goal.category)
-                WorkoutGoals.create(workout_id: @workout.id, goal_id: goal.id)
+            if @workout.is_in_current_goal_date?(goal.start_date, goal.end_date) && @workout.is_in_current_goal_category?(goal.category)
+                WorkoutGoal.create(workout_id: @workout.id, goal_id: goal.id)
             end
         end
         #puts params

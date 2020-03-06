@@ -20,9 +20,9 @@ class ApplicationController < Sinatra::Base
       end
     end
   
-    def total_minutes_towards_goal(array)
+    def total_minutes_towards_goal(array_workouts)
       total = 0 
-      array do |each|
+      array_workouts.each do |each|
           total += each.time_unit_minutes
       end
       total

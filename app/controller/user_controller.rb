@@ -9,6 +9,7 @@ class UserController < ApplicationController
                 
     get '/users/home' do
         if logged_in?
+            # binding.pry
             @user = User.find(session[:user_id])
             erb :'users/home'
         else
@@ -61,7 +62,7 @@ class UserController < ApplicationController
 
     #this will be home page, if can figure out how to make slugs unique even if names are same.. use slug instead of id
     get '/users/:id' do 
-        #binding.pry
+        # binding.pry
         @user = User.find_by_id(params[:id])
         if logged_in?
             # @user = User.find_by_slug(params[:slug])
@@ -71,6 +72,7 @@ class UserController < ApplicationController
                 #!@user.workouts.empty? ? (@workouts = @user.workouts) : (@workouts = nil)
                 @workouts = @user.workouts 
                 @goals = @user.goals
+                #binding.pry
                 erb :'/users/home'
             # else
             #     flash[:message] = "You don't have permissions for that profile."

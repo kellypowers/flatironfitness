@@ -1,5 +1,5 @@
 <div class="heading h2">
-    <h2>Workouts</h2> 
+    <h2>Goals</h2> 
 </div>
 
 <div class="index"
@@ -8,11 +8,19 @@
     <%@user.goals.each do |goal|%>
         <li><a href="goals/<%=goal.id%>"><%=goal.category%></a></li> </ul>
         <ul>
-        <li>Date: <%=goal.date_printed%></li>
+        <li>Start Date: <%=goal.date_printed(goal.start_date)%></li>
+        <li>End Date: <%=goal.date_printed(goal.end_date)%></li>
         <li>Time: <%=goal.time%> <%=goal.time_units%></li>
         <%if goal.description != nil%>
             <li> <%=goal.description%></li> 
         <%end%>
+        <%#workouts_in_goal = Workout.all_in_goal(goal.category, goal.start_date, goal.end_date)%>
+        <%#workouts_in_goal.each do |t|%>
+        <%#=t%>
+        <%#end%>
+        <%#min_done_for_goal = total_minutes_towards_goal(workouts_in_goal)%>
+        <%#min done for goal<%#=min_done_for_goal%>
+        <%#=goal.workout_progress(min_done_for_goal, goal)%>
     <%end%> 
     </ul>
     

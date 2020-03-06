@@ -12,7 +12,7 @@ class GoalController < ApplicationController
 
     get '/goals/index' do 
         @user = User.find(session[:user_id])
-        binding.pry
+        #binding.pry
         erb :'/goals/index'
     end
 
