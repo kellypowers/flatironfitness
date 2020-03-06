@@ -8,7 +8,7 @@ class UserController < ApplicationController
     use Rack::Flash 
                 
     get '/signup' do
-        logged_in? ? (redirect to "/users/:id") : (erb :'/users/signup')
+        logged_in? ? (redirect to "/users/#{@current_user.id}") : (erb :'/users/signup')
     end
  
     #add a message if email is taken?
@@ -26,17 +26,17 @@ class UserController < ApplicationController
     end
 
     get '/login' do
-        logged_in? ? (redirect '/users/:id') : (erb :'users/login')
+        logged_in? ? (redirect "/users/#{@current_user.id}") : (erb :'users/login')
     end
 
     post '/login' do
         @user = User.find_by(email: params["user"]["email"])
         if @user && @user.authenticate(params["user"]["password"])
             session[:user_id] = @user.id
-            redirect '/users/:id'
+            redirect "/users/#{@current_user.id}"
         else
             flash[:message] = "Invalid username/password. Please sign up."
-            redirect '/registrations/signup'
+            redirect '/signup'
         end
     end
 
@@ -54,7 +54,7 @@ class UserController < ApplicationController
                 erb :'/users/home'
             else
                 flash[:message] = "You don't have permissions for that profile."
-                redirect :"/users/#{current_user.id}"
+                redirect "/users/#{current_user.id}"
             end
         else
             redirect '/'
@@ -68,11 +68,11 @@ class UserController < ApplicationController
                 erb :'/users/account'
             else
                 flash[:message] = "You don't have permissions for that account."
-                redirect :"/users/#{@current_user.id}/account"
+                redirect "/users/#{@current_user.id}/account"
             end
         else
             flash[:message] = "Please log in to access your account."
-            erb :'/login'
+            redirect '/login'
         end
     end
 
@@ -100,11 +100,12 @@ class UserController < ApplicationController
                     @user.save
                 else
                     flash[:message] = "New passwords do not match"
-                    redirect "/useres/#{@user.id}/edit"
+                    redirect "/users/#{@user.id}/edit"
                 end
             end
             if params["email"] != @user.email 
                 @user.email = params[:email]
+                @user.save
                 #do i want to prompt "do you want to change THIS to THAT" ?
             end
             if params["name"] != @user.name 
