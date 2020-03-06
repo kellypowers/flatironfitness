@@ -1,0 +1,46 @@
+<div class="heading h2">
+    <h2>Create New Workout</h2>
+</div>
+
+<div class="form">
+<form action="/workouts" method="post">
+    <br>
+    <div class="form_input_select">
+        <label for="workout_category">Select type of workout</label>
+        <%# <input list="category" id="category" name="workout[category]" /> %>
+        <select name="workout[category]">
+            <option value="Warmup/Stretch"> Warmup / Stretch </option>
+            <option value="Cardio">Cardio</option>
+            <option value="Weights">Weights</option>
+            <option value="Other">Other</option>
+        </select>
+    </div>
+    <br>
+    <div class="form_input_date">
+        <label for="workout_date">Date</label>
+        <input id="workout_date" type="date" name="workout[date]" required>
+    </div>
+    <br>
+    <div class="form_input_integer">
+        <label for="workout_time">Time:</label>
+        <input id="workout_time" type="integer" name="workout[time]" required> 
+    </div>
+    <div class="form_input_radio">
+        Minute(s)<input type="radio" name="workout[time_units]" value="minute(s)"required> 
+    </div>
+    <div class="form_input_radio">
+        Hour(s)<input type="radio"name="workout[time_units]" value="hour(s)" required> 
+    </div>
+    <br>
+    <div class="form_input_textarea">
+        <label for="workout_reps">Comments, details you want to log about your workout</label>
+        <input id="workout_reps" type="textarea" name="workout[comment]">
+    </div>
+    <br>
+    <div class="button">
+        <input type="submit" value="Create New Workout">
+    </div>
+</form> 
+</div>
+
+    <a href="/workouts">Workouts</a>

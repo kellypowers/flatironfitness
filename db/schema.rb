@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_05_224736) do
+ActiveRecord::Schema.define(version: 2020_03_06_041258) do
 
   create_table "goals", force: :cascade do |t|
-    t.string "name"
+    t.string "category"
     t.string "description"
     t.integer "time"
     t.string "time_units"

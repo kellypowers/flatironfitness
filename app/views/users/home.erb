@@ -24,7 +24,8 @@
 <div class="iterating links">
 <ul>
     <%@workouts.each do |workout|%>
-        <li class="text-center"><a href="/workouts/<%=workout.id%>"><%=workout.name%> </a></li>
+        <li class="text-center"><a href="/workouts/<%=workout.id%>"><%=workout.category%> </a></li> 
+        <ul><li><%=workout.date_printed%></li></ul>
     <%end%>
 </ul>
 </div> 
