@@ -7,8 +7,23 @@ require 'rack-flash'
 class UserController < ApplicationController
     use Rack::Flash 
                 
+    get '/users/home' do
+        if logged_in?
+            @user = User.find(session[:user_id])
+            @workouts = @user.workouts
+            erb :'users/home'
+        else
+            erb :'/users/login'
+        end
+    end
+
     get '/signup' do
-        logged_in? ? (redirect to "/users/#{@current_user.id}") : (erb :'/users/signup')
+        @user = User.new(params[:user])
+        if logged_in? 
+            redirect "/users/#{@user.id}"
+        else
+            erb :'/users/signup'
+        end
     end
  
     #add a message if email is taken?
@@ -17,7 +32,7 @@ class UserController < ApplicationController
         if params[:user][:password] == params[:password2]
             @user.save
             session[:user_id] = @user.id
-            redirect "/users/:id"
+            redirect "/users/#{@user.id}"
         else
             flash[:message] = "Passwords don't match"
             redirect "/signup"
@@ -26,14 +41,19 @@ class UserController < ApplicationController
     end
 
     get '/login' do
-        logged_in? ? (redirect "/users/#{@current_user.id}") : (erb :'users/login')
+        @user = User.new(params[:user])
+        if logged_in? 
+            redirect "/users/#{@current_user.id}"
+        else
+            erb :'users/login'
+        end
     end
 
     post '/login' do
         @user = User.find_by(email: params["user"]["email"])
         if @user && @user.authenticate(params["user"]["password"])
             session[:user_id] = @user.id
-            redirect "/users/#{@current_user.id}"
+            redirect "/users/#{@user.id}"
         else
             flash[:message] = "Invalid username/password. Please sign up."
             redirect '/signup'
@@ -42,20 +62,21 @@ class UserController < ApplicationController
 
     #this will be home page, if can figure out how to make slugs unique even if names are same.. use slug instead of id
     get '/users/:id' do 
+        #binding.pry
+        @user = User.find_by_id(params[:id])
         if logged_in?
             # @user = User.find_by_slug(params[:slug])
-            @user = User.find_by_id(params[:id])
             #is this validation ok/needed?
-            if @user.id == params[:id]
+            # if @user.id == params[:id]
                 #should check for this in views
                 #!@user.workouts.empty? ? (@workouts = @user.workouts) : (@workouts = nil)
                 @workouts = @user.workouts 
                 @goals = @user.goals
                 erb :'/users/home'
-            else
-                flash[:message] = "You don't have permissions for that profile."
-                redirect "/users/#{current_user.id}"
-            end
+            # else
+            #     flash[:message] = "You don't have permissions for that profile."
+            #     redirect "/users/#{current_user.id}"
+            # end
         else
             redirect '/'
         end
@@ -64,12 +85,7 @@ class UserController < ApplicationController
     get '/users/:id/account' do
         if logged_in?
             @user = User.find(session[:user_id])
-            if @user.id == params[:id]
-                erb :'/users/account'
-            else
-                flash[:message] = "You don't have permissions for that account."
-                redirect "/users/#{@current_user.id}/account"
-            end
+            erb :'/users/account'
         else
             flash[:message] = "Please log in to access your account."
             redirect '/login'
@@ -79,13 +95,13 @@ class UserController < ApplicationController
     #should i put  [logged_in? if @user.id == params[:id] ] in a validation method in model to DRY?
     get '/users/:id/edit' do 
         if logged_in?
-            if @user.id == params[:id]
-                erb :"users/edit"
-            end
+            @user = User.find_by_id(params[:id])
+            erb :"users/edit"
         else 
             redirect to '/login'
         end
     end
+
 
     patch '/users/:id' do 
         @user = User.find(session[:user_id])

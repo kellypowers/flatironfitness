@@ -14,9 +14,9 @@ class ApplicationController < Sinatra::Base
   
     get '/' do
       if logged_in?
-        redirect to "/users/:slug/home"
+        redirect to "/users/#{@current_user.id}"
       else
-        erb :home
+        erb :'/home'
       end
     end
   

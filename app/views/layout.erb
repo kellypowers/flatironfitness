@@ -11,17 +11,17 @@
 
 
 <header>
-    <h1>>Flatiron Fitness</h1>
+    <h1>Flatiron Fitness</h1>
     <nav>
     <div>
 
         <%if logged_in?%>
-            <a href="/users/<%=user.id%>">Home</a>
-            <a href="/users/<%=@user.id}%>/account">Account</a>
-            <a href="/sessions/logout" >Log Out</a>
+            <a href="/users/<%=@current_user.id%>">Home</a>
+            <a href="/users/<%=@current_user.id%>/account">Account</a>
+            <a href="/logout" >Log Out</a>
         <%else%>
             <a href="/signup">Sign Up</a>
-            <a href="/sessions/login">Log In</a>
+            <a href="/login">Log In</a>
         <%end%> 
         </div>
     </nav>

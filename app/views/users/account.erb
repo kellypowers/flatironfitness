@@ -1,0 +1,23 @@
+<div class="flash_message">
+    <% if flash.include?(:message) %>
+        <%= flash[:message] %>
+    <% end %>
+</div>
+<br>
+<div class="name">
+    Name: <%=@user.name%>
+</div>
+<br>
+<div class="email">
+    Email: <%=@user.email%>
+</div>
+<%# <br> %>
+<%# Password:  <%= (@user.password.length)> %>
+<br>
+
+
+<%# <%=@user%> 
+<div class="button">
+    <a href="/users/<%=@user.id%>/edit">Edit Account Info</a>
+</div>
+<br>
