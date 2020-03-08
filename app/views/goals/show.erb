@@ -3,8 +3,9 @@
 </div>
 
 <ul>   
-        <li><%=@goal.category%>
-        <%=@goal.date_printed%></li> </ul>
+        <li>Category: <%=@goal.category%> </li>
+        <li>Start: <%=@goal.date_printed(@goal.start_date)%></li> 
+        <li>End: <%=@goal.date_printed(@goal.end_date)%></li> 
         <li>Time: <%=@goal.time%> <%=@goal.time_units%></li> 
         <%if @goal.description != nil%>
         <li>Description: <%=@goal.description%></li> 
@@ -13,9 +14,9 @@
 
 </ul> 
 <div class="button">
-    <a href="/goals/<%=@goal.id%>/edit">Edit this workout</a>
+    <a href="/goals/<%=@goal.id%>/edit">Edit this goal</a>
 </div>
 
 <div class="button">
-    <a href="goals/<%@goal.id%>"> Delete this goal </a>
+    <a href="goals/<%=@goal.id%>"> Delete this goal </a>
 </div>

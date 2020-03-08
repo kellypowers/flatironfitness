@@ -28,15 +28,20 @@ class UserController < ApplicationController
  
     #add a message if email is taken?
     post '/signup' do
-        @user = User.new(params[:user])
-        if params[:user][:password] == params[:password2]
-            @user.save
-            session[:user_id] = @user.id
-            redirect "/users/#{@user.id}"
+        existing_users = User.all.map{|each| each.email}
+        if existing_users.include?(params[:email])
+            flash[:message] = "That email is already taken."  #email recovery??
+            redirect '/signup'
         else
-            flash[:message] = "Passwords don't match"
-            redirect "/signup"
-        
+            @user = User.new(params[:user])
+            if params[:user][:password] == params[:password2]
+                @user.save
+                session[:user_id] = @user.id
+                redirect "/users/#{@user.id}"
+            else
+                flash[:message] = "Passwords don't match"
+                redirect "/signup"
+            end
         end
     end
 
@@ -50,6 +55,7 @@ class UserController < ApplicationController
     end
 
     post '/login' do
+
         @user = User.find_by(email: params["user"]["email"])
         if @user && @user.authenticate(params["user"]["password"])
             session[:user_id] = @user.id
@@ -65,19 +71,10 @@ class UserController < ApplicationController
         # binding.pry
         @user = User.find_by_id(params[:id])
         if logged_in?
-            # @user = User.find_by_slug(params[:slug])
-            #is this validation ok/needed?
-            # if @user.id == params[:id]
-                #should check for this in views
-                #!@user.workouts.empty? ? (@workouts = @user.workouts) : (@workouts = nil)
                 @workouts = @user.workouts 
                 @goals = @user.goals
                 #binding.pry
                 erb :'/users/home'
-            # else
-            #     flash[:message] = "You don't have permissions for that profile."
-            #     redirect "/users/#{current_user.id}"
-            # end
         else
             redirect '/'
         end

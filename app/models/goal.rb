@@ -7,6 +7,13 @@ class Goal < ActiveRecord::Base
         "#{Date::MONTHNAMES[item.month]} #{item.day}, #{item.year}"
     end
 
+    def date_format_for_form_value(date)
+        d = Date.parse(date.to_s)
+        d.strftime("%Y-%m-%d")
+    end
+
+
+
     def is_current?
         start_time = Date.parse(self.start_date.to_s)
         end_time = Date.parse(self.end_date.to_s)

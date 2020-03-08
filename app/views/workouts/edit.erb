@@ -11,16 +11,16 @@
         <label for="workout_category">Select type of workout</label>
         <%# <input list="category" id="category" name="workout[category]" /> %>
         <select name="workout[category]">
-            <option value="Warmup/Stretch" <%selected if @workout.category == "Warmup/Stretch"%>> Warmup / Stretch </option>
-            <option value="Cardio" <%@workout.category == "Cardio" ? selected : nil%>>Cardio</option>
-            <option value="Weights" <%@workout.category == "Weights" ? selected : nil%>>Weights</option>
-            <option value="Other" <%@workout.category == "Other" ? selected : nil%>>Other</option>
+            <option value="Warmup/Stretch" <%='selected' if @workout.category == "Warmup/Stretch"%>> Warmup / Stretch </option>
+            <option value="Cardio" <%= 'selected' if @workout.category == "Cardio"%>>Cardio</option>
+            <option value="Weights" <%= 'selected' if @workout.category == "Weights" %>>Weights</option>
+            <option value="Other" <%='selected' if @workout.category == "Other" %>>Other</option>
         </select>
     </div>
     <br>
     <div class="form_input_date">
         <label for="workout_date">Date</label>
-        <input id="workout_date" type="date" name="workout[date]" value="<%=@workout.date%>" required>
+        <input id="workout_date" type="date" name="workout[date]" value="<%=@workout.date_format_for_form_value(@workout.date)%>" required>
     </div>
     <br>
     <div class="form_input_integer">
@@ -28,15 +28,15 @@
         <input id="workout_time" type="integer" name="workout[time]" value="<%=@workout.time%>" required> 
     </div>
     <div class="form_input_radio">
-        Minute(s)<input type="radio" name="workout[time_units]" value="minute(s)" <%selected if @workout.time_units == "minute(s)"%>required> 
+        Minute(s)<input type="radio" name="workout[time_units]" value="minute(s)" <%='checked' if @workout.time_units == "minute(s)"%>> 
     </div>
     <div class="form_input_radio">
-        Hour(s)<input type="radio"name="workout[time_units]" value="hour(s)" <%selected if @workout.time_units == "minute(s)"%> required> 
+        Hour(s)<input type="radio"name="workout[time_units]" value="hour(s)" <%='checked' if @workout.time_units == "hour(s)"%> > 
     </div>
     <br>
     <div class="form_input_textarea">
         <label for="workout_comment">Comments/details you want to log about your workout</label>
-        <input id="workout_comment" type="textarea" name="workout[comment]" value="<%@workout.comment%>">
+        <input id="workout_comment" type="textarea" name="workout[comment]" value="<%=@workout.comment%>">
     </div>
     <br>
     <div class="button">
@@ -46,5 +46,5 @@
 </div>
 
 <div class="button">
-    <a href="workouts/<%@workout.id%>"> Delete this workout </a>
+    <a href="workouts/<%=@workout.id%>"> Delete this workout </a>
 </div>

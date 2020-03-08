@@ -28,7 +28,7 @@ class WorkoutController < ApplicationController
         @workouts = @user.workouts
         @workout = Workout.find_by_id(params[:id])
         #@workout = @user.workouts.find_by_id(params[:id])
-        erb :'workouts/edit'
+        erb :'/workouts/edit'
     end
 
     post '/workouts' do 

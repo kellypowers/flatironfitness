@@ -22,6 +22,12 @@ class GoalController < ApplicationController
         erb :'/goals/show'
     end
 
+    get '/goals/:id/edit' do 
+        @user = User.find(session[:user_id])
+        @goal = Goal.find_by_id(params[:id])
+        erb :'/goals/edit'
+    end
+
     
 
     post '/goals' do 
@@ -29,7 +35,7 @@ class GoalController < ApplicationController
         @goal = Goal.create(params["goal"])
         @goal.user_id = @user.id 
         @workouts_in_goal = Workout.all.all_in_goal(@goal.category, @goal.start_date, @goal.end_date)
-        #this goes back to add any already made workouts to goal if applicable
+        #this goes back to add any already made workouts to goal if applicable and if not already present.
         @workouts_in_goal.each do |workout|
             if !@goal.already_present?(@goal.id, workout.id)
                 WorkoutGoals.create(workout_id: workout.id, goal_id: @goal.id)
@@ -45,7 +51,7 @@ class GoalController < ApplicationController
         @user = User.find(session[:user_id])
         @goal.update(params["goal"])
         @goal.save
-        redirect to "/goal/#{@goal.id}"
+        redirect to "/goals/#{@goal.id}"
     end
 
 

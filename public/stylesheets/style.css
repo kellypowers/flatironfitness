@@ -62,7 +62,7 @@ header h1 {
   margin-left: 160px; /* Same as the width of the sidebar */
   padding: 0px 10px;
 }
-
+/*
 .button {
     padding: 15px;
     margin: 50px;
@@ -75,7 +75,6 @@ header h1 {
     display: inline-block;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     text-align: center;
-    z-index: 1;
 }
 
 .button a {
@@ -90,4 +89,12 @@ header h1 {
 
 .button a:hover{
     color: black;
+}
+*/
+label {
+    font-weight: bold;
+}
+
+#goal_button {
+    padding-right: 15px;
 }

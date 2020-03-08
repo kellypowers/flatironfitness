@@ -9,10 +9,10 @@
         <%workouts_in_goal = Workout.all_in_goal(goal.category, goal.start_date, goal.end_date)%>
         <%min_done_for_goal = total_minutes_towards_goal(workouts_in_goal)%>
         <%=goal.category%> 
-        <br>
+        for
         <%=goal.time%> <%=goal.time_units%>  
         <br>
-        Start: <%=goal.date_printed(goal.start_date)%> End:  <%=goal.date_printed(goal.end_date)%> 
+        From: <%=goal.date_printed(goal.start_date)%> Until:  <%=goal.date_printed(goal.end_date)%> 
         <br>
         Description: <%=goal.description%> 
         <br>
@@ -26,21 +26,15 @@
 <div class="button">
 <div id="goal_button">
     <a href="/goals/new" >Add a goal</a>
-</div>
 
-
-<div class="button">
     <a href="/goals/index" >View all goals</a>
 </div>
 </div>
 
 
 <div class="button">
-<div id="workout_button">
-    <a href="/workouts/new">Add new workout</a>
-</div>
-
-<div class="button">
-    <a href="/workouts">View all workouts</a>
-</div>
+    <div id="workout_button">
+        <a href="/workouts/new">Add new workout</a> 
+        <a href="/workouts">View all workouts</a>
+    </div>
 </div>

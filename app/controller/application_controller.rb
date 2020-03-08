@@ -65,6 +65,7 @@ class ApplicationController < Sinatra::Base
         !!current_user
       end
       
+      #have not used this, but might want to
       def empty_fields?(hash)
         hash.values.any? {|x| x.nil? || x.empty?}
       end

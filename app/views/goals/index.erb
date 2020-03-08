@@ -6,8 +6,8 @@
 
    <ul>
     <%@user.goals.each do |goal|%>
-        <li><a href="goals/<%=goal.id%>"><%=goal.category%></a></li> </ul>
-        <ul>
+        <ul><li><a href="/goals/<%=goal.id%>"><%=goal.category%></a></li> </ul>
+        
         <li>Start Date: <%=goal.date_printed(goal.start_date)%></li>
         <li>End Date: <%=goal.date_printed(goal.end_date)%></li>
         <li>Time: <%=goal.time%> <%=goal.time_units%></li>
