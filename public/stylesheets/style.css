@@ -60,26 +60,29 @@ header h1 {
 
  #main {
   margin-left: 160px; /* Same as the width of the sidebar */
-  padding: 0px 10px;
+ 
 }
-/*
+
+
 .button {
-    padding: 15px;
-    margin: 50px;
+    padding: 5px;
+    margin: 10px;
     border-radius: 15px;
     border-color: black;
     border-style: solid;
-    width: 140px;
-    height: 20px;
-    background-color: black;
-    display: inline-block;
+    width: auto;
+    height: auto;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     text-align: center;
+    background-color: rgb(48, 46, 46);
+    color: white;
 }
 
 .button a {
     text-decoration: none;
-    color: blanchedalmond;
+    font-size: small;
+    padding: 5px;
+    color: white;
 }
 
 .button:hover {
@@ -87,14 +90,52 @@ header h1 {
     color: black;
 }
 
-.button a:hover{
-    color: black;
-}
-*/
+
 label {
     font-weight: bold;
 }
 
 #goal_button {
-    padding-right: 15px;
+    display: flex;
+    justify-content: left;
+    padding-right: 20px;
+    align-items: flex-end;
 }
+
+#workout_button {
+    display: flex;
+    justify-content: left;
+    padding-right: 20px;
+}
+
+ul .list_title li{
+    text-decoration: none;
+    font-weight: bold;
+
+}
+
+ul .list_title li:hover{
+    color: black;
+    background-color: white;
+    
+}
+
+.submit_button {
+    padding: 5px;
+    margin: 10 px;
+    border-radius: 15px;
+    border-color: black;
+    border-style: solid;
+    width: auto;
+    height: auto;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+    background-color: rgb(48, 46, 46);
+    color: white;
+}
+
+.submit_button:hover {
+    background-color: white;
+    color: black;
+}
+

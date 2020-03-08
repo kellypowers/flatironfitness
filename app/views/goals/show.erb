@@ -10,7 +10,15 @@
         <%if @goal.description != nil%>
         <li>Description: <%=@goal.description%></li> 
         <%end%>
-        
+        <%workouts_in_goal = Workout.all_in_goal(@goal.category, @goal.start_date, @goal.end_date)%>
+        <%min_done_for_goal = total_minutes_towards_goal(workouts_in_goal)%>
+        <li>Status: 
+        <%if @goal.is_current?%>
+            This goal is in progress. <%=@goal.workout_progress(min_done_for_goal, @goal)%>
+        <%else%>
+            This goal has passed. <%=@goal.completed_goal_status(min_done_for_goal, @goal)%>
+        <%end%>
+
 
 </ul> 
 <div class="button">

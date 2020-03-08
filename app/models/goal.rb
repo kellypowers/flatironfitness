@@ -2,6 +2,7 @@ class Goal < ActiveRecord::Base
     has_many :workouts, through: :workout_goals
     belongs_to :user
 
+   
     def date_printed(date)
         item = Date.parse(date.to_s)
         "#{Date::MONTHNAMES[item.month]} #{item.day}, #{item.year}"
@@ -96,6 +97,22 @@ class Goal < ActiveRecord::Base
             "Get started on meeting your goal of #{goal_minutes} minutes of #{goal.category}!"
         end
     end
+
+    def completed_goal_status(total_minutes, goal)
+        goal_minutes = goal.time_unit_minutes 
+        amount_completed = nil 
+        if total_minutes != 0 
+            if goal_minutes > total_minutes
+                amount_completed = (total_minutes.to_f / goal_minutes.to_f * 100).to_i 
+                "You completed #{amount_completed}% of this goal."
+            else
+                "You completed this goal!"
+            end
+        else
+            "You did not complete any of this goal."
+        end
+    end
+
 
     def already_present?(workoutid, goalid)
         WorkoutGoal.all.each do |workout_goal_ids|

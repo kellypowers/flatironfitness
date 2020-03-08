@@ -3,6 +3,7 @@
     <h4> <%=@user.name%>'s Current Goal </h4>
 </div>
 
+<div id="main">
 <%@user.goals.each do |goal|%> 
     <%if goal.is_current?%> 
     <br>
@@ -22,19 +23,25 @@
         <br>
     <%end%>
 <%end%>
+</div>
 <br>
-<div class="button">
+
 <div id="goal_button">
-    <a href="/goals/new" >Add a goal</a>
-
+    <div class="button">
+        <a href="/goals/new" >Add a goal</a>
+    </div>
+    <div class="button">
     <a href="/goals/index" >View all goals</a>
-</div>
+    </div>
 </div>
 
 
-<div class="button">
-    <div id="workout_button">
+
+<div id="workout_button">
+    <div class="button">
         <a href="/workouts/new">Add new workout</a> 
+    </div>
+    <div class="button">
         <a href="/workouts">View all workouts</a>
     </div>
 </div>
