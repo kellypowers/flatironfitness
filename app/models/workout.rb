@@ -1,18 +1,21 @@
+require 'sinatra/base'
+
 class Workout < ActiveRecord::Base
+    include DateAndTimeMethods
     belongs_to :user
     has_many :goals, through: :workout_goals
     
    
-    def date_printed(dates)
-        date = self.date.to_s
-        item = Date.parse(date)
-        "#{Date::MONTHNAMES[item.month]} #{item.day}, #{item.year}"
-    end
+    # def date_printed(dates)
+    #     date = self.date.to_s
+    #     item = Date.parse(date)
+    #     "#{Date::MONTHNAMES[item.month]} #{item.day}, #{item.year}"
+    # end
 
-    def date_format_for_form_value(date)
-        d = Date.parse(date.to_s)
-        d.strftime("%Y-%m-%d")
-    end
+    # def date_format_for_form_value(date)
+    #     d = Date.parse(date.to_s)
+    #     d.strftime("%Y-%m-%d")
+    # end
 
 
 
@@ -35,19 +38,19 @@ class Workout < ActiveRecord::Base
         end
     end
 
-    def time_unit_minutes
-        time = nil
-        if self.time != 0
-            if self.time_units == "minute(s)"
-                time = self.time 
-            else
-                time = self.time * 60
-            end
-        else
-            time = self.time
-        end
-        time
-    end
+    # def time_unit_minutes
+    #     time = nil
+    #     if self.time != 0
+    #         if self.time_units == "minute(s)"
+    #             time = self.time 
+    #         else
+    #             time = self.time * 60
+    #         end
+    #     else
+    #         time = self.time
+    #     end
+    #     time
+    # end
 
     def self.all_in_goal(goal_category, start_date, end_date)
         array_of_workouts_in_goal = []

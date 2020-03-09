@@ -1,31 +1,36 @@
 require 'pry'
 require 'rack-flash'
+
 class WorkoutController < ApplicationController
 
+    #gets index of all workouts for user, Read
     get '/workouts' do 
         @user = User.find(session[:user_id])
         @workouts = Workout.all
         erb :'/workouts/index'
     end
 
+    #gets form to Create new workout
     get '/workouts/new' do 
         @user = User.find_by_id(params[:id])
         erb :'/workouts/new'
     end
 
-
+    #shows individual workouts
     get '/workouts/:id' do 
         @user = User.find(session[:user_id])
         @workout = Workout.find_by_id(params[:id])
         erb :'/workouts/show'
     end
 
+    #edits individual workouts
     get '/workouts/:id/edit' do 
         @user = User.find(session[:user_id])
         @workout = Workout.find_by_id(params[:id])
         erb :'/workouts/edit'
     end
 
+    #post to create new workout
     post '/workouts' do 
         @user = User.find(session[:user_id])
         @workout = Workout.create(params["workout"])
@@ -48,7 +53,6 @@ class WorkoutController < ApplicationController
         @workout.save
         redirect to "/workouts/#{@workout.id}"
     end
-
 
     delete "/workouts/:id" do 
         Workout.destroy(params[:id])

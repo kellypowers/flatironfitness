@@ -1,6 +1,6 @@
 class GoalController < ApplicationController
 
-    get '/workouts' do 
+    get '/goals' do 
         @user = User.find(session[:user_id])
         erb :'/goals/index'
     end
@@ -10,11 +10,6 @@ class GoalController < ApplicationController
         erb :'/goals/new'
     end
 
-    get '/goals/index' do 
-        @user = User.find(session[:user_id])
-        #binding.pry
-        erb :'/goals/index'
-    end
 
     get '/goals/:id' do 
         @user = User.find(session[:user_id])

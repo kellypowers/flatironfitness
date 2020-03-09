@@ -1,17 +1,19 @@
+require 'sinatra/base'
+
 class Goal < ActiveRecord::Base
+    include DateAndTimeMethods
     has_many :workouts, through: :workout_goals
     belongs_to :user
 
-    def date_printed(date)
-        item = Date.parse(date.to_s)
-        "#{Date::MONTHNAMES[item.month]} #{item.day}, #{item.year}"
-    end
+    # def date_printed(date)
+    #     item = Date.parse(date.to_s)
+    #     "#{Date::MONTHNAMES[item.month]} #{item.day}, #{item.year}"
+    # end
 
-    def date_format_for_form_value(date)
-        d = Date.parse(date.to_s)
-        d.strftime("%Y-%m-%d")
-    end
-
+    # def date_format_for_form_value(date)
+    #     d = Date.parse(date.to_s)
+    #     d.strftime("%Y-%m-%d")
+    # end
 
     def is_current?
         start_time = Date.parse(self.start_date.to_s)
@@ -34,7 +36,6 @@ class Goal < ActiveRecord::Base
         current_goals
     end
 
-
     def self.valid_date_and_category(category)
         valid_date_and_cat = []
         self.select_current.each do |each_current_goal|
@@ -45,19 +46,19 @@ class Goal < ActiveRecord::Base
         valid_date_and_cat 
     end
                 
-    def time_unit_minutes
-        time = nil
-        if self.time != 0
-            if self.time_units == "minute(s)"
-                time = self.time 
-            else
-                time = self.time * 60
-            end
-        else
-            time = self.time
-        end
-        time
-    end
+    # def time_unit_minutes
+    #     time = nil
+    #     if self.time != 0
+    #         if self.time_units == "minute(s)"
+    #             time = self.time 
+    #         else
+    #             time = self.time * 60
+    #         end
+    #     else
+    #         time = self.time
+    #     end
+    #     time
+    # end
 
 
     def time_left(current_goal, total_workout_minutes_towards_goal)
