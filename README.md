@@ -30,6 +30,10 @@ to see the program in the browser.
 * [Bcrypt](https://www.npmjs.com/package/bcrypt) 
 
 
+## Contributing
+
+Please read [CONTRIBUTING.md] for details on our code of conduct, and the process for submitting pull requests to us.
+
 ## Authors
 
 * **Kelly Powers** - *Initial work* - [kellypowers](https://github.com/kellypowers)
