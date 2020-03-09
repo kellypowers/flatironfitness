@@ -1,8 +1,14 @@
-<div class="heading h2">
-    <h2>Goal <%=@goal.id%></h2> 
+<div id="flash_message">
+    <% if flash.include?(:message) %>
+        <%= flash[:message] %>
+    <% end %>
 </div>
 
-<ul>   
+<div class="heading h2">
+    <h2>Goal</h2> 
+</div>
+
+    <ul>  
         <li>Category: <%=@goal.category%> </li>
         <li>Start: <%=@goal.date_printed(@goal.start_date)%></li> 
         <li>End: <%=@goal.date_printed(@goal.end_date)%></li> 
@@ -28,4 +34,4 @@
     <input class="submit_button" type="submit" value="Delete this goal">
 </form>
 
-<button a href="/goals/<%=@goal.id%>/edit">Edit this goal</button>
+<button onclick="window.location.href='/goals/<%=@goal.id%>/edit';">Edit this goal</button>

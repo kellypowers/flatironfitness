@@ -1,22 +1,19 @@
 <div class="heading h2">
-    <h2>Workout <%=@workout.id%></h2> 
+    <h2>Workout</h2> 
 </div>
-
-<ul>   
+<div>
+    <ul>   
         <li><%=@workout.category%>
         <%=@workout.date_printed(@workout.date)%></li> </ul>
         <li>Time: <%=@workout.time%> <%=@workout.time_units%></li> 
         <%if @workout.comment != nil%>
         <li>Comments: <%=@workout.comment%></li> 
         <%end%>
-        
-
-</ul> 
-
-    <button a href="/workouts/<%=@workout.id%>/edit">Edit this workout</button>
-
-
-
+    </ul> 
+</div>
+<div>
+    <button onclick="window.location.href='/workouts/<%=@workout.id%>/edit';">Edit this workout</button>
+</div>
 <form method="post" action="/workouts/<%=@workout.id%>">
     <input id="hidden" type="hidden" name="_method" value="delete">
     <input class="submit_button" type="submit" value="Delete this workout">

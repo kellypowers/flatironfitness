@@ -18,16 +18,12 @@ class WorkoutController < ApplicationController
 
     #shows individual workouts
     get '/workouts/:id' do 
-        @user = User.find(session[:user_id])
-        @workout = Workout.find_by_id(params[:id])
-        erb :'/workouts/show'
+       validate_workout("show")
     end
 
     #edits individual workouts
     get '/workouts/:id/edit' do 
-        @user = User.find(session[:user_id])
-        @workout = Workout.find_by_id(params[:id])
-        erb :'/workouts/edit'
+        validate_workout("edit")
     end
 
     #post to create new workout

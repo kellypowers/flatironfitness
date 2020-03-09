@@ -10,17 +10,28 @@ class GoalController < ApplicationController
         erb :'/goals/new'
     end
 
-
     get '/goals/:id' do 
-        @user = User.find(session[:user_id])
-        @goal = Goal.find_by_id(params[:id])
-        erb :'/goals/show'
+        validate_goal("show")
+        # @user = User.find(session[:user_id])
+        # @goal = Goal.find_by_id(params[:id])
+        #   if @goal.user_id == @user.id 
+        #       erb :"/goals/show"
+        #   else
+        #     flash[:message] = "You can only view/edit your own goals."
+        #     redirect "/goals"
+        #   end
     end
 
     get '/goals/:id/edit' do 
-        @user = User.find(session[:user_id])
-        @goal = Goal.find_by_id(params[:id])
-        erb :'/goals/edit'
+        validate_goal("edit")
+        # @user = User.find(session[:user_id])
+        # @goal = Goal.find_by_id(params[:id])
+        #   if @goal.user_id == @user.id 
+        #       erb :"/goals/edit"
+        #   else
+        #     flash[:message] = "You can only view/edit your own goals."
+        #     redirect "/goals"
+        #   end
     end
 
     post '/goals' do 

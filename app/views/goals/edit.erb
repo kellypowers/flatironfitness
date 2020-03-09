@@ -1,3 +1,9 @@
+<div id="flash_message">
+    <% if flash.include?(:message) %>
+        <%= flash[:message] %>
+    <% end %>
+</div>
+
 <div class="heading h2">
     <h2>Create New Goal</h2>
 </div>
@@ -49,9 +55,7 @@
 </form> 
 </div>
 
-<div class="button">
-    <a href="/goals">Goals</a>
-</div>
+
 <form method="post" action="/goals/<%=@goal.id%>">
     <input id="hidden" type="hidden" name="_method" value="delete">
     <input class="submit_button" type="submit" value="Delete this goal">

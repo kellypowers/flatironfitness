@@ -2,8 +2,8 @@ require 'pry'
 require 'rack-flash'
 
 class UserController < ApplicationController
-    use Rack::Flash 
-                
+    use Rack::Flash           
+    
     get '/users/home' do
         if logged_in?
             # binding.pry
@@ -62,45 +62,20 @@ class UserController < ApplicationController
         end
     end
 
+    get '/users/:id/home' do 
+        redirect '/users/home'
+    end
+
     get '/users/:id' do 
-        @user = User.find(session[:user_id]) 
-        if logged_in?
-            #binding.pry
-            if @user.id == params[:id].to_i
-                @workouts = @user.workouts 
-                @goals = @user.goals
-                erb :'/users/home'
-            else 
-                flash[:message] = "You do not have permission to view that profile"
-                redirect "/users/#{@user.id}"
-            end
-        else
-            redirect '/'
-        end
+       validate_user("home")
     end
 
     get '/users/:id/account' do
-        @user = User.find(session[:user_id])
-        if logged_in?
-            if @user.id == params[:id].to_i
-                erb :'/users/account'
-            else
-                flash[:message] = "You do not have permission to view that profile"
-                redirect "/users/#{@user.id}/account"
-            end
-        else
-            flash[:message] = "Please log in to access your account."
-            redirect '/login'
-        end
+        validate_user("account")
     end
 
     get '/users/:id/edit' do 
-        if logged_in?
-            @user = User.find_by_id(params[:id])
-            erb :"users/edit"
-        else 
-            redirect to '/login'
-        end
+        validate_user("edit")
     end
 
 
