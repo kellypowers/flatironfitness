@@ -8,7 +8,7 @@ class UserController < ApplicationController
         if logged_in?
             # binding.pry
             @user = User.find(session[:user_id])
-            erb :'users/home'
+            erb :'/users/home'
         else
             erb :'/users/login'
         end
