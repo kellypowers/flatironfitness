@@ -63,20 +63,31 @@ class UserController < ApplicationController
     end
 
     get '/users/:id' do 
-        @user = User.find_by_id(params[:id])
+        @user = User.find(session[:user_id]) 
         if logged_in?
+            #binding.pry
+            if @user.id == params[:id].to_i
                 @workouts = @user.workouts 
                 @goals = @user.goals
                 erb :'/users/home'
+            else 
+                flash[:message] = "You do not have permission to view that profile"
+                redirect "/users/#{@user.id}"
+            end
         else
             redirect '/'
         end
     end
 
     get '/users/:id/account' do
+        @user = User.find(session[:user_id])
         if logged_in?
-            @user = User.find(session[:user_id])
-            erb :'/users/account'
+            if @user.id == params[:id].to_i
+                erb :'/users/account'
+            else
+                flash[:message] = "You do not have permission to view that profile"
+                redirect "/users/#{@user.id}/account"
+            end
         else
             flash[:message] = "Please log in to access your account."
             redirect '/login'
@@ -129,8 +140,13 @@ class UserController < ApplicationController
 
     delete "/users/:id" do 
         @user = User.find(session[:user_id])
-        User.destroy(params[:id])
-        session.clear
-        redirect to "/"
+        if @user.id == params[:id].to_s
+            User.destroy(params[:id])
+            session.clear
+            redirect to "/"
+        else
+            flash[:message] = "You do not have permission to delete that account"
+            redirect "/"
+        end
     end
 end
