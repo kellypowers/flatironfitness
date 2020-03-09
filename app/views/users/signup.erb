@@ -1,4 +1,4 @@
-<div class="flash_message">
+<div id="flash_message">
     <% if flash.include?(:message) %>
         <%= flash[:message] %>
     <% end %>
@@ -7,7 +7,7 @@
     <h2>Sign Up Below:</h2>
 </div>
 <div class="form">
-<form method="post" action="/signup">
+<form action="/signup" method="post">
     <div class="form_input">
         <label for="name">Name: </label>
         <input id="name" type="text" name="user[name]">
@@ -25,14 +25,13 @@
         <label for="verify">Verify Password:</label>
         <input id="password2" type="password" name="password2">
     </div>
-    <div class="button">
-        <input type="submit" value="Sign Up">
-    </div>
+    <br>
+    <input class="submit_button" type="submit" value="Sign Up">
 
 </form>
 </div>
 <br>
 
-<div class="button">
-    <a href="/login">Log in</a>
-</div>
+<%# <div class="button"> %>
+    <a class="button" href="/login">Log in</a>
+<%# </div> %>

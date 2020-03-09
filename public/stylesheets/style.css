@@ -14,7 +14,8 @@ body {
 
 
 header h1 {
-    text-align: center;
+    margin-left: 160px;
+    text-align: left;
 }
 
 
@@ -22,6 +23,19 @@ header h1 {
 .nav_links a:hover{
     background-color: black;
     color: white;
+}
+
+ul a {
+    text-decoration: none;
+    font-weight: bold;
+    color: gray;
+    
+}
+ul a:hover {
+    text-decoration: none;
+    font-weight: bold;
+    color:white;
+    background-color: black;
 }
 
 
@@ -60,34 +74,45 @@ header h1 {
 
  #main {
   margin-left: 160px; /* Same as the width of the sidebar */
+  text-align: left;
  
 }
 
 
 .button {
+    display: inline-block;
+    align-items: center;
     padding: 5px;
-    margin: 10px;
     border-radius: 15px;
     border-color: black;
     border-style: solid;
-    width: auto;
-    height: auto;
+    width: 300px;
+    height: 20px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    text-align: center;
     background-color: rgb(48, 46, 46);
     color: white;
+
+
 }
 
 .button a {
     text-decoration: none;
     font-size: small;
-    padding: 5px;
     color: white;
+
+    
 }
 
 .button:hover {
-    background-color: white;
+    background-color: gray;
+}
+
+.button a:hover {
     color: black;
+} 
+
+.heading_h4 {
+    text-align: center;
 }
 
 
@@ -97,15 +122,20 @@ label {
 
 #goal_button {
     display: flex;
-    justify-content: left;
+    justify-content: center;
     padding-right: 20px;
     align-items: flex-end;
 }
 
 #workout_button {
     display: flex;
-    justify-content: left;
+    justify-content: center;
     padding-right: 20px;
+}
+
+li {
+    text-decoration: none;
+    list-style: none;
 }
 
 ul .list_title li{
@@ -119,14 +149,14 @@ ul .list_title li:hover{
     background-color: white;
     
 }
-
+/*
 .submit_button {
     padding: 5px;
-    margin: 10 px;
     border-radius: 15px;
     border-color: black;
     border-style: solid;
-    width: auto;
+    width: 300px;
+    height: 20px;
     height: auto;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     text-align: center;
@@ -138,4 +168,4 @@ ul .list_title li:hover{
     background-color: white;
     color: black;
 }
-
+*/

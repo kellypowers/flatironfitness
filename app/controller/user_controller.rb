@@ -1,9 +1,6 @@
 require 'pry'
 require 'rack-flash'
-# Validate uniqueness of user login attribute (username or email).
-# Validate user input so bad data cannot be persisted to the database.
-#  Display validation failures to user with error messages.
-# Ensure that users can edit and delete only their own resources - not resources created by other users.
+
 class UserController < ApplicationController
     use Rack::Flash 
                 
@@ -18,19 +15,18 @@ class UserController < ApplicationController
     end
 
     get '/signup' do
-        @user = User.new(params[:user])
         if logged_in? 
+            @user = User.find(session[:user_id])
             redirect "/users/#{@user.id}"
         else
             erb :'/users/signup'
         end
     end
  
-    #add a message if email is taken?
     post '/signup' do
         existing_users = User.all.map{|each| each.email}
-        if existing_users.include?(params[:email])
-            flash[:message] = "That email is already taken."  #email recovery??
+        if existing_users.include?(params[:user][:email])
+            flash[:message] = "That email is already taken." 
             redirect '/signup'
         else
             @user = User.new(params[:user])
@@ -42,11 +38,12 @@ class UserController < ApplicationController
                 flash[:message] = "Passwords don't match"
                 redirect "/signup"
             end
-        end
+         end
     end
 
     get '/login' do
-        @user = User.new(params[:user])
+        @user = User.find_by_id(params[:id])
+        # @user = User.new(params[:user])
         if logged_in? 
             redirect "/users/#{@current_user.id}"
         else
@@ -66,14 +63,11 @@ class UserController < ApplicationController
         end
     end
 
-    #this will be home page, if can figure out how to make slugs unique even if names are same.. use slug instead of id
     get '/users/:id' do 
-        # binding.pry
         @user = User.find_by_id(params[:id])
         if logged_in?
                 @workouts = @user.workouts 
                 @goals = @user.goals
-                #binding.pry
                 erb :'/users/home'
         else
             redirect '/'
@@ -90,7 +84,6 @@ class UserController < ApplicationController
         end
     end
 
-    #should i put  [logged_in? if @user.id == params[:id] ] in a validation method in model to DRY?
     get '/users/:id/edit' do 
         if logged_in?
             @user = User.find_by_id(params[:id])
@@ -120,7 +113,6 @@ class UserController < ApplicationController
             if params["email"] != @user.email 
                 @user.email = params[:email]
                 @user.save
-                #do i want to prompt "do you want to change THIS to THAT" ?
             end
             if params["name"] != @user.name 
                 @user.name = params[:name]
@@ -131,7 +123,7 @@ class UserController < ApplicationController
         end
     end
 
-    get '/users/logout' do
+    get '/logout' do
         session.clear
         redirect '/'
     end

@@ -1,9 +1,9 @@
 
-<div class="heading h4">
+<div class="heading_h4">
     <h4> <%=@user.name%>'s Current Goal </h4>
 </div>
 
-<div id="main">
+
 <%@user.goals.each do |goal|%> 
     <%if goal.is_current?%> 
     <br>
@@ -17,13 +17,14 @@
         <br>
         Description: <%=goal.description%> 
         <br>
+        <br>
         <%=goal.time_left(goal, min_done_for_goal)%> 
         <br>
         <%=goal.workout_progress(min_done_for_goal, goal)%> 
         <br>
     <%end%>
 <%end%>
-</div>
+
 <br>
 
 <div id="goal_button">

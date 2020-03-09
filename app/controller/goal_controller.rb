@@ -28,8 +28,6 @@ class GoalController < ApplicationController
         erb :'/goals/edit'
     end
 
-    
-
     post '/goals' do 
         @user = User.find(session[:user_id])
         @goal = Goal.create(params["goal"])
@@ -38,7 +36,7 @@ class GoalController < ApplicationController
         #this goes back to add any already made workouts to goal if applicable and if not already present.
         @workouts_in_goal.each do |workout|
             if !@goal.already_present?(@goal.id, workout.id)
-                WorkoutGoals.create(workout_id: workout.id, goal_id: @goal.id)
+                WorkoutGoal.create(workout_id: workout.id, goal_id: @goal.id)
             end
         end
         @goal.save
@@ -55,9 +53,9 @@ class GoalController < ApplicationController
     end
 
 
-    delete "goals/:id" do 
+    delete "/goals/:id" do 
         Goal.destroy(params[:id])
-        redirect to "/goals"
+        redirect to "/goals/index"
     end
 end
 

@@ -43,14 +43,16 @@
         <input id="goal_description" type="textarea" name="goal[description]" value="<%=@goal.description%>">
     </div>
     <br>
-    <div class="button">
-        <input type="submit" value="Edit this goal">
-    </div>
+    <%# <div class="button"> %>
+        <input class="submit_button" type="submit" value="Edit this goal">
+    <%# </div> %>
 </form> 
 </div>
 
-    <a href="/goals">Goals</a>
-
 <div class="button">
-    <a href="goals/<%=@goal.id%>"> Delete this goal </a>
+    <a href="/goals">Goals</a>
 </div>
+<form method="post" action="/goals/<%=@goal.id%>">
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <input class="submit_button" type="submit" value="Delete this goal">
+</form>

@@ -2,7 +2,7 @@ class Workout < ActiveRecord::Base
     belongs_to :user
     has_many :goals, through: :workout_goals
     
-    # these two methods are in both goal and user.. but them in app controller?
+   
     def date_printed(dates)
         date = self.date.to_s
         item = Date.parse(date)
@@ -59,7 +59,6 @@ class Workout < ActiveRecord::Base
         array_of_workouts_in_goal
     end
 
-    #need to check that it is in category & time frame
     def total_minutes_towards_goal(array)
         total = 0 
         array.each do |each_one|
@@ -67,9 +66,6 @@ class Workout < ActiveRecord::Base
         end
         total
     end
-
-            
-
 
 
 end

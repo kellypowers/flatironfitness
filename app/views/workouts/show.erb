@@ -12,10 +12,12 @@
         
 
 </ul> 
-<div class="button">
-    <a href="/workouts/<%=@workout.id%>/edit">Edit this workout</a>
-</div>
 
-<div class="button">
-    <a href="workouts/<%@workout.id%>"> Delete this workout </a>
-</div>
+    <button a href="/workouts/<%=@workout.id%>/edit">Edit this workout</button>
+
+
+
+<form method="post" action="/workouts/<%=@workout.id%>">
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <input class="submit_button" type="submit" value="Delete this workout">
+</form>

@@ -21,10 +21,11 @@
 
 
 </ul> 
-<div class="button">
-    <a href="/goals/<%=@goal.id%>/edit">Edit this goal</a>
-</div>
 
-<div class="button">
-    <a href="goals/<%=@goal.id%>"> Delete this goal </a>
-</div>
+
+<form method="post" action="/goals/<%=@goal.id%>">
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <input class="submit_button" type="submit" value="Delete this goal">
+</form>
+
+<button a href="/goals/<%=@goal.id%>/edit">Edit this goal</button>

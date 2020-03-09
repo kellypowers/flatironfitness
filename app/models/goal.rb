@@ -2,7 +2,6 @@ class Goal < ActiveRecord::Base
     has_many :workouts, through: :workout_goals
     belongs_to :user
 
-   
     def date_printed(date)
         item = Date.parse(date.to_s)
         "#{Date::MONTHNAMES[item.month]} #{item.day}, #{item.year}"
@@ -12,7 +11,6 @@ class Goal < ActiveRecord::Base
         d = Date.parse(date.to_s)
         d.strftime("%Y-%m-%d")
     end
-
 
 
     def is_current?
@@ -61,8 +59,7 @@ class Goal < ActiveRecord::Base
         time
     end
 
-    #will ahve to do if workout is in goal date range first
-    #have to incorporate ALL workouts that are valid
+
     def time_left(current_goal, total_workout_minutes_towards_goal)
         time_left = nil
         if total_workout_minutes_towards_goal != 0 
@@ -71,8 +68,6 @@ class Goal < ActiveRecord::Base
                 "You have #{time_left} minutes of #{current_goal.category} left to go!"
             elsif current_goal.time_unit_minutes < total_workout_minutes_towards_goal
                 "Zero minutes left to go! You did it!"
-            # else
-            #     "You have #{time_left} minutes of #{current_goal.category} left to go!"
             end
         else 
             "You have #{current_goal.time} #{current_goal.time_units} of #{current_goal.category} left to go!" 

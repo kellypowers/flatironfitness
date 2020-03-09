@@ -18,6 +18,8 @@
         <%if logged_in?%>
             <a href="/users/<%=@current_user.id%>">Home</a>
             <a href="/users/<%=@current_user.id%>/account">Account</a>
+            <%# <a href="/workouts">All Workouts</a> %>
+            <%# <a href="/goals/index">All Goals</a> %>
             <a href="/logout" >Log Out</a>
         <%else%>
             <a href="/signup">Sign Up</a>

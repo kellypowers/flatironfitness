@@ -39,12 +39,13 @@
         <input id="workout_comment" type="textarea" name="workout[comment]" value="<%=@workout.comment%>">
     </div>
     <br>
-    <div class="button">
-        <input type="submit" value="Edit this workout">
-    </div>
+    
+        <input class="submit_button" type="submit" value="Edit this workout">
+  
 </form> 
 </div>
 
-<div class="button">
-    <a href="workouts/<%=@workout.id%>"> Delete this workout </a>
-</div>
+<form method="post" action="/workouts/<%=@workout.id%>">
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <input class="submit_button" type="submit" value="Delete this workout">
+</form>

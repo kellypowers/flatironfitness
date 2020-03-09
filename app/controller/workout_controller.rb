@@ -4,15 +4,12 @@ class WorkoutController < ApplicationController
 
     get '/workouts' do 
         @user = User.find(session[:user_id])
-        #binding.pry
         @workouts = Workout.all
         erb :'/workouts/index'
     end
 
     get '/workouts/new' do 
         @user = User.find_by_id(params[:id])
-        #@workouts = @user.workouts
-        #@workouts = Workout.all
         erb :'/workouts/new'
     end
 
@@ -25,9 +22,7 @@ class WorkoutController < ApplicationController
 
     get '/workouts/:id/edit' do 
         @user = User.find(session[:user_id])
-        @workouts = @user.workouts
         @workout = Workout.find_by_id(params[:id])
-        #@workout = @user.workouts.find_by_id(params[:id])
         erb :'/workouts/edit'
     end
 
@@ -41,10 +36,8 @@ class WorkoutController < ApplicationController
                 WorkoutGoal.create(workout_id: @workout.id, goal_id: goal.id)
             end
         end
-        #puts params
         @workout.user_id = @user.id
         @workout.save
-        #binding.pry
         erb :'/workouts/index'
     end
 
@@ -57,7 +50,7 @@ class WorkoutController < ApplicationController
     end
 
 
-    delete "workouts/:id" do 
+    delete "/workouts/:id" do 
         Workout.destroy(params[:id])
         redirect to "/workouts"
     end
