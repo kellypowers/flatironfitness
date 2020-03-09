@@ -6,8 +6,9 @@
 
    <ul>
     <%@user.workouts.each do |workout|%>
-    <br>
+    <br><br>
         <ul class = "list_title"><li><a href="workouts/<%=workout.id%>"><%=workout.category%></a></li> </ul>
+        <br>
         <li>Date: <%=workout.date_printed(workout.date)%></li>
         <li>Time: <%=workout.time%> <%=workout.time_units%></li>
         
