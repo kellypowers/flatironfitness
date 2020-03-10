@@ -1,36 +1,36 @@
 class Goal < ActiveRecord::Base
-    #include DateAndTimeMethods
+    include DateAndTimeMethods
     has_many :workouts, through: :workout_goals
     belongs_to :user
 
-    #want these four methods in a module to go to both Goal and Workout
-        #puts date in format Month, DD, YYY
-        def date_printed(dates)
-            date = dates.to_s
-            item = Date.parse(date)
-            "#{Date::MONTHNAMES[item.month]} #{item.day}, #{item.year}"
-        end
+    # #want these four methods in a module to go to both Goal and Workout
+    #     #puts date in format Month, DD, YYY
+    #     def date_printed(dates)
+    #         date = dates.to_s
+    #         item = Date.parse(date)
+    #         "#{Date::MONTHNAMES[item.month]} #{item.day}, #{item.year}"
+    #     end
 
-        #puts the date in format to be saved in the calendar when editing workout/goal
-        def date_format_for_form_value(date)
-            d = Date.parse(date.to_s)
-            d.strftime("%Y-%m-%d")
-        end
+    #     #puts the date in format to be saved in the calendar when editing workout/goal
+    #     def date_format_for_form_value(date)
+    #         d = Date.parse(date.to_s)
+    #         d.strftime("%Y-%m-%d")
+    #     end
 
-        #converts all time units to minutes to calculate progress
-        def time_unit_minutes
-            time = nil
-            if self.time != 0
-                if self.time_units == "minute(s)"
-                    time = self.time 
-                else
-                    time = self.time * 60
-                end
-            else
-                time = self.time
-            end
-            time
-        end
+    #     #converts all time units to minutes to calculate progress
+    #     def time_unit_minutes
+    #         time = nil
+    #         if self.time != 0
+    #             if self.time_units == "minute(s)"
+    #                 time = self.time 
+    #             else
+    #                 time = self.time * 60
+    #             end
+    #         else
+    #             time = self.time
+    #         end
+    #         time
+    #     end
 
         #are these ids already present in workoutgoal
         def already_present?(workoutid, goalid)
