@@ -46,6 +46,15 @@ class WorkoutController < ApplicationController
         @workout = Workout.find(params[:id])
         @user = User.find(session[:user_id])
         @workout.update(params["workout"])
+        #if workout category has changed, see if there is a goal with that category and date and add ids to workout_goal table
+        if params["workout"]["category"] != @workout.category 
+            valid_goals = Goal.valid_date_and_category(@workout.category, @user)
+            valid_goals.each do |goal|
+                if @workout.is_in_current_goal_date?(goal.start_date, goal.end_date) && @workout.is_in_current_goal_category?(goal.category)
+                    WorkoutGoal.create(workout_id: @workout.id, goal_id: goal.id)
+                end
+            end
+        end
         @workout.save
         redirect to "/workouts/#{@workout.id}"
     end

@@ -1,13 +1,11 @@
 <div class="heading h2">
     <h2>Create New Workout</h2>
 </div>
-
 <div class="form">
-<form action="/workouts" method="post">
+    <form action="/workouts" method="post">
     <br>
     <div class="form_input_select">
         <label for="workout_category">Select type of workout</label>
-        <%# <input list="category" id="category" name="workout[category]" /> %>
         <select name="workout[category]">
             <option value="Warmup/Stretch"> Warmup / Stretch </option>
             <option value="Cardio">Cardio</option>
@@ -37,10 +35,8 @@
         <input id="workout_reps" type="textarea" name="workout[comment]">
     </div>
     <br>
-   
-        <input class="submit_button" type="submit" value="Create New Workout">
-   
-</form> 
+    <input class="submit_button" type="submit" value="Create New Workout">
+    </form> 
 </div>
 <div class="button">
     <a href="/workouts">Workouts</a>

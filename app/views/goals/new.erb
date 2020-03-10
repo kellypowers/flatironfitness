@@ -3,51 +3,46 @@
 </div>
 
 <div class="form">
-<form action="/goals" method="post">
-    <br>
-    <div class="form_input_select">
-        <label for="goal_category">Select type of workout</label>
-        <%# <input list="category" id="category" name="workout[category]" /> %>
-        <select name="goal[category]">
-            <option value="Warmup/Stretch"> Warmup / Stretch </option>
-            <option value="Cardio">Cardio</option>
-            <option value="Weights">Weights</option>
-            <option value="Other">Other</option>
-        </select>
-    </div>
-    <br>
-    <div class="form_input_date">
-        <label for="start_date">Start Date</label>
-        <input id="start_date" type="date" name="goal[start_date]" required>
-    </div>
-    <br>
+    <form action="/goals" method="post">
+        <br>
+        <div class="form_input_select">
+            <label for="goal_category">Select type of workout</label>
+            <select name="goal[category]">
+                <option value="Warmup/Stretch"> Warmup / Stretch </option>
+                <option value="Cardio">Cardio</option>
+                <option value="Weights">Weights</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <br>
         <div class="form_input_date">
-        <label for="end_date">End Date</label>
-        <input id="end_date" type="date" name="goal[end_date]" required>
-    </div>
-    <br>
-    <div class="form_input_integer">
-        <label for="goal_time">Time:</label>
-        <input id="goal_time" type="integer" name="goal[time]" required> 
-    </div>
-    <div class="form_input_radio">
-        Minute(s)<input type="radio" name="goal[time_units]" value="minute(s)"required> 
-    </div>
-    <div class="form_input_radio">
-        Hour(s)<input type="radio"name="goal[time_units]" value="hour(s)" required> 
-    </div>
-    <br>
-    <div class="form_input_textarea">
-        <label for="goal_description">Description of goal/ extra details</label>
-        <input id="goal_description" type="textarea" name="goal[description]">
-    </div>
-    <br>
-  
-    <input class = "submit_button" type="submit" value="Create New Goal">
-      
-</form> 
+            <label for="start_date">Start Date</label>
+            <input id="start_date" type="date" name="goal[start_date]" required>
+        </div>
+        <br>
+        <div class="form_input_date">
+            <label for="end_date">End Date</label>
+            <input id="end_date" type="date" name="goal[end_date]" required>
+        </div>
+        <br>
+        <div class="form_input_integer">
+            <label for="goal_time">Time:</label>
+            <input id="goal_time" type="integer" name="goal[time]" required> 
+        </div>
+        <div class="form_input_radio">
+            Minute(s)<input type="radio" name="goal[time_units]" value="minute(s)"required> 
+        </div>
+        <div class="form_input_radio">
+            Hour(s)<input type="radio"name="goal[time_units]" value="hour(s)" required> 
+        </div>
+        <br>
+        <div class="form_input_textarea">
+            <label for="goal_description">Description of goal/ extra details</label>
+            <input id="goal_description" type="textarea" name="goal[description]">
+        </div>
+        <br>
+        <input class = "submit_button" type="submit" value="Create New Goal">
+    </form> 
 </div>
 
-<div class="button">
-    <a href="/goals">Goals</a>
-</div>
+<button onclick="window.location.href='/goals';">All goals</button>

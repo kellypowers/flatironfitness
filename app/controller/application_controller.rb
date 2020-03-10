@@ -9,17 +9,16 @@ class ApplicationController < Sinatra::Base
     set :session_secret, "fitnessprogress"
     set :views, Proc.new { File.join(root, "../views/") }
     set :public_folder, 'public'
-    # set :show_exceptions, false
+    set :show_exceptions, false #this is for line 19, if user tries to view workout/goal that has been deleted, rather than get an error page it will redirect home
   end
 
   get '/' do
     redirect to '/users/home'
   end
 
-  # error do 
-  #   redirect '/'
-  # end
-
+  error do 
+    redirect '/'
+  end
 
   def current_user 
     @current_user ||= User.find_by_id(session[:user_id])
@@ -38,6 +37,7 @@ class ApplicationController < Sinatra::Base
       total
     end
 
+    #validate user
     def validate_user(string)
       @user = User.find(session[:user_id])
       if logged_in?
@@ -50,30 +50,29 @@ class ApplicationController < Sinatra::Base
       else 
           redirect to '/login'
       end
-  end
+    end
 
-  #these two validate made the edit button not work.. if can get to work, can implement.
-  def validate_goal(string)
-    @user = User.find(session[:user_id])
-    @goal = Goal.find_by_id(params[:id])
-      if @goal.user_id == @user.id 
-          erb :"/goals/#{string}"
-      else
-        flash[:message] = "You can only view/edit your own goals."
-        redirect "/goals"
-      end
-  end
+    def validate_goal(string)
+      @user = User.find(session[:user_id])
+      @goal = Goal.find_by_id(params[:id])
+        if @goal.user_id == @user.id 
+            erb :"/goals/#{string}"
+        else
+          flash[:message] = "You can only view/edit your own goals."
+          redirect "/goals"
+        end
+    end
 
-  def validate_workout(string)
-    @user = User.find(session[:user_id])
-    @workout = Workout.find_by_id(params[:id])
-      if @workout.user_id == @user.id 
-        erb :"/workouts/#{string}"
-      else
-        flash[:message] = "You can only view/edit your own workouts."
-        redirect '/workouts'
-      end
-  end
+    def validate_workout(string)
+      @user = User.find(session[:user_id])
+      @workout = Workout.find_by_id(params[:id])
+        if @workout.user_id == @user.id 
+          erb :"/workouts/#{string}"
+        else
+          flash[:message] = "You can only view/edit your own workouts."
+          redirect '/workouts'
+        end
+    end
 
    end
 end

@@ -1,50 +1,49 @@
+<div id="flash_message">
+    <% if flash.include?(:message) %>
+        <%= flash[:message] %>
+    <% end %>
+</div>
 <div class="heading h2">
     <h2>Edit Workout </h2>
 </div>
-
-
 <div class="form">
-<form action="/workouts/<%=@workout.id%>" method="post">
-<input type="hidden" name="_method" value="patch">
-    <br>
-    <div class="form_input_select">
-        <label for="workout_category">Select type of workout</label>
-        <%# <input list="category" id="category" name="workout[category]" /> %>
-        <select name="workout[category]">
-            <option value="Warmup/Stretch" <%='selected' if @workout.category == "Warmup/Stretch"%>> Warmup / Stretch </option>
-            <option value="Cardio" <%= 'selected' if @workout.category == "Cardio"%>>Cardio</option>
-            <option value="Weights" <%= 'selected' if @workout.category == "Weights" %>>Weights</option>
-            <option value="Other" <%='selected' if @workout.category == "Other" %>>Other</option>
-        </select>
-    </div>
-    <br>
-    <div class="form_input_date">
-        <label for="workout_date">Date</label>
-        <input id="workout_date" type="date" name="workout[date]" value="<%=@workout.date_format_for_form_value(@workout.date)%>" required>
-    </div>
-    <br>
-    <div class="form_input_integer">
-        <label for="workout_time">Time:</label>
-        <input id="workout_time" type="integer" name="workout[time]" value="<%=@workout.time%>" required> 
-    </div>
-    <div class="form_input_radio">
-        Minute(s)<input type="radio" name="workout[time_units]" value="minute(s)" <%='checked' if @workout.time_units == "minute(s)"%>> 
-    </div>
-    <div class="form_input_radio">
-        Hour(s)<input type="radio"name="workout[time_units]" value="hour(s)" <%='checked' if @workout.time_units == "hour(s)"%> > 
-    </div>
-    <br>
-    <div class="form_input_textarea">
-        <label for="workout_comment">Comments/details you want to log about your workout</label>
-        <input id="workout_comment" type="textarea" name="workout[comment]" value="<%=@workout.comment%>">
-    </div>
-    <br>
-    
-        <input class="submit_button" type="submit" value="Edit this workout">
-  
-</form> 
+    <form action="/workouts/<%=@workout.id%>" method="post">
+    <input type="hidden" name="_method" value="patch">
+        <br>
+        <div class="form_input_select">
+            <label for="workout_category">Select type of workout</label>
+            <select name="workout[category]">
+                <option value="Warmup/Stretch" <%='selected' if @workout.category == "Warmup/Stretch"%>> Warmup / Stretch </option>
+                <option value="Cardio" <%= 'selected' if @workout.category == "Cardio"%>>Cardio</option>
+                <option value="Weights" <%= 'selected' if @workout.category == "Weights" %>>Weights</option>
+                <option value="Other" <%='selected' if @workout.category == "Other" %>>Other</option>
+            </select>
+        </div>
+        <br>
+        <div class="form_input_date">
+            <label for="workout_date">Date</label>
+            <input id="workout_date" type="date" name="workout[date]" value="<%=@workout.date_format_for_form_value(@workout.date)%>" required>
+        </div>
+        <br>
+        <div class="form_input_integer">
+            <label for="workout_time">Time:</label>
+            <input id="workout_time" type="integer" name="workout[time]" value="<%=@workout.time%>" required> 
+        </div>
+        <div class="form_input_radio">
+            Minute(s)<input type="radio" name="workout[time_units]" value="minute(s)" <%='checked' if @workout.time_units == "minute(s)"%>> 
+        </div>
+        <div class="form_input_radio">
+            Hour(s)<input type="radio"name="workout[time_units]" value="hour(s)" <%='checked' if @workout.time_units == "hour(s)"%> > 
+        </div>
+        <br>
+        <div class="form_input_textarea">
+            <label for="workout_comment">Comments/details you want to log about your workout</label>
+            <input id="workout_comment" type="textarea" name="workout[comment]" value="<%=@workout.comment%>">
+        </div>
+        <br>
+    <input class="submit_button" type="submit" value="Edit this workout">
+    </form> 
 </div>
-
 <form method="post" action="/workouts/<%=@workout.id%>">
     <input id="hidden" type="hidden" name="_method" value="delete">
     <input class="submit_button" type="submit" value="Delete this workout">

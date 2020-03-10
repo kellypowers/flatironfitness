@@ -7,31 +7,27 @@
     <h2>Sign Up Below:</h2>
 </div>
 <div class="form">
-<form action="/signup" method="post">
-    <div class="form_input">
-        <label for="name">Name: </label>
-        <input id="name" type="text" name="user[name]">
-    </div>
-    <div class="form_input">
-        <label for="email">Email: </label>
-        <input id="email" type="text" name="user[email]">
-    </div>
-    <br>
-    <div class="form_input">
-        <label for="password">Password: </label>
-        <input id="password" type="password" name="user[password]">
-    </div>
-    <div class="form_input">
-        <label for="verify">Verify Password:</label>
-        <input id="password2" type="password" name="password2">
-    </div>
-    <br>
-    <input class="submit_button" type="submit" value="Sign Up">
-
-</form>
+    <form action="/signup" method="post">
+        <div class="form_input">
+            <label for="name">Name: </label>
+            <input id="name" type="text" name="user[name]">
+        </div>
+        <div class="form_input">
+            <label for="email">Email: </label>
+            <input id="email" type="text" name="user[email]">
+        </div>
+        <br>
+        <div class="form_input">
+            <label for="password">Password: </label>
+            <input id="password" type="password" name="user[password]">
+        </div>
+        <div class="form_input">
+            <label for="verify">Verify Password:</label>
+            <input id="password2" type="password" name="password2">
+        </div>
+        <br>
+        <input class="submit_button" type="submit" value="Sign Up">
+    </form>
 </div>
 <br>
-
-<%# <div class="button"> %>
-    <a class="button" href="/login">Log in</a>
-<%# </div> %>
+<a class="button" href="/login">Log in</a>

@@ -5,20 +5,15 @@ body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }    
 
-
 #flash_message {
  color: red;
  font-family: 'Times New Roman', Times, serif
 } 
 
-
-
 header h1 {
     margin-left: 160px;
     text-align: left;
 }
-
-
 
 .nav_links a:hover{
     background-color: black;
@@ -29,15 +24,14 @@ ul a {
     text-decoration: none;
     font-weight: bold;
     color: gray;
-    
 }
+
 ul a:hover {
     text-decoration: none;
     font-weight: bold;
     color:white;
     background-color: black;
 }
-
 
 #sidenav {
     height: 100%; /* Full-height: remove this if you want "auto" height */
@@ -60,6 +54,7 @@ ul a:hover {
     display: block;
     transition: 0.3s;
   }
+  
 #sidenav a {
     padding: 10px 8px 6px 16px;
     text-decoration: none;

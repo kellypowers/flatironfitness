@@ -6,42 +6,37 @@
 <div class="heading_h4">
     <h4> <%=@user.name%>'s Current Goal </h4>
 </div>
-
-
-<%@user.goals.each do |goal|%> 
-    <%if goal.is_current?%> 
-    <br>
-        <%workouts_in_goal = Workout.all_in_goal(goal.category, goal.start_date, goal.end_date)%>
-        <%min_done_for_goal = total_minutes_towards_goal(workouts_in_goal)%>
-        <%=goal.category%> 
-        for
-        <%=goal.time%> <%=goal.time_units%>  
+<div>
+    <%@user.goals.each do |goal|%> 
+        <%if goal.is_current?%> 
         <br>
-        From: <%=goal.date_printed(goal.start_date)%> Until:  <%=goal.date_printed(goal.end_date)%> 
-        <br>
-        Description: <%=goal.description%> 
-        <br>
-        <br>
-        <%=goal.time_left(goal, min_done_for_goal)%> 
-        <br>
-        <%=goal.workout_progress(min_done_for_goal, goal)%> 
-        <br>
+            <%workouts_in_goal = Workout.all_in_goal(goal.category, goal.start_date, goal.end_date)%>
+            <%min_done_for_goal = total_minutes_towards_goal(workouts_in_goal)%>
+            <%=goal.category%> 
+            for
+            <%=goal.time%> <%=goal.time_units%>  
+            <br>
+            From: <%=goal.date_printed(goal.start_date)%> Until:  <%=goal.date_printed(goal.end_date)%> 
+            <br>
+            Description: <%=goal.description%> 
+            <br>
+            <br>
+            <%=goal.time_left(goal, min_done_for_goal)%> 
+            <br>
+            <%=goal.workout_progress(min_done_for_goal, goal)%> 
+            <br>
+        <%end%>
     <%end%>
-<%end%>
-
+</div>
 <br>
-
 <div id="goal_button">
     <div class="button">
         <a href="/goals/new" >Add a goal</a>
     </div>
     <div class="button">
-    <a href="/goals" >View all goals</a>
+        <a href="/goals" >View all goals</a>
     </div>
 </div>
-
-
-
 <div id="workout_button">
     <div class="button">
         <a href="/workouts/new">Add new workout</a> 

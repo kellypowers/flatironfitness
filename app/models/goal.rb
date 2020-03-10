@@ -1,5 +1,3 @@
-# require 'sinatra/base'
-
 class Goal < ActiveRecord::Base
     #include DateAndTimeMethods
     has_many :workouts, through: :workout_goals
@@ -35,7 +33,7 @@ class Goal < ActiveRecord::Base
         end
     
 
-
+    #checks that the goal is current
     def is_current?
         start_time = Date.parse(self.start_date.to_s)
         end_time = Date.parse(self.end_date.to_s)
@@ -47,6 +45,7 @@ class Goal < ActiveRecord::Base
         end
     end
 
+    #selects current goals
     def self.select_current
         current_goals =[]
         self.all.each do |each_goal|
@@ -57,17 +56,20 @@ class Goal < ActiveRecord::Base
         current_goals
     end
 
-    def self.valid_date_and_category(category)
+    #verifies the date is current and category matches the workout, and the user ids match
+    def self.valid_date_and_category(category, user)
         valid_date_and_cat = []
         self.select_current.each do |each_current_goal|
-            if each_current_goal.category == category 
-                valid_date_and_cat << each_current_goal
+            if user.id == each_goal.user_id
+                if each_current_goal.category == category 
+                    valid_date_and_cat << each_current_goal
+                end
             end
         end
         valid_date_and_cat 
     end
 
-
+    #will show if there is more time needed to complete goal and how much, or says if goal has not been started or has been completed
     def time_left(current_goal, total_workout_minutes_towards_goal)
         time_left = nil
         if total_workout_minutes_towards_goal != 0 
@@ -82,6 +84,7 @@ class Goal < ActiveRecord::Base
         end
     end
 
+    #gives progress of the workouts towards a goal, how much left to complete of goal in percent
     def workout_progress(total_minutes, goal)
         goal_minutes = goal.time_unit_minutes
         amount_completed = nil
@@ -101,6 +104,7 @@ class Goal < ActiveRecord::Base
         end
     end
 
+    #in the goal index page goes back and states whether a goal was completed or not, if not then how much was completed.
     def completed_goal_status(total_minutes, goal)
         goal_minutes = goal.time_unit_minutes 
         amount_completed = nil 
@@ -114,16 +118,6 @@ class Goal < ActiveRecord::Base
         else
             "You did not complete any of this goal."
         end
-    end
-
-
-    def already_present?(workoutid, goalid)
-        WorkoutGoal.all.each do |workout_goal_ids|
-            if workout_goal_ids.workout_id == workoutid && workout_goal_ids.goal_id == goalid 
-                return true
-            end
-        end
-        false
     end
 
 end

@@ -43,7 +43,6 @@ class UserController < ApplicationController
 
     get '/login' do
         @user = User.find_by_id(params[:id])
-        # @user = User.new(params[:user])
         if logged_in? 
             redirect "/users/#{@current_user.id}"
         else
@@ -78,14 +77,15 @@ class UserController < ApplicationController
         validate_user("edit")
     end
 
-
     patch '/users/:id' do 
         @user = User.find(session[:user_id])
+        #if user types in wrong password, get error message and redirect
         if !@user.authenticate(params[:password])
             flash[:message] = "Please type in your current password to make changes"
             redirect to "/users/#{@user.id}/edit"
         else
             @user.password = params[:password]
+            #if user tries to change password, check that both new passwords are the same and change the password
             if !params["new_password"].empty? 
                 if params["new_password"] == params["new_password_2"]
                     @user.password = params[:new_password]
@@ -113,6 +113,7 @@ class UserController < ApplicationController
         redirect '/'
     end
 
+    #not sure if i need the validation here, since the button is only accessed within the user's account
     delete "/users/:id" do 
         @user = User.find(session[:user_id])
         if @user.id == params[:id].to_s

@@ -3,8 +3,10 @@
 </div>
 <div>
     <ul>   
-        <li><%=@workout.category%>
-        <%=@workout.date_printed(@workout.date)%></li> </ul>
+        <ul>
+            <li><%=@workout.category%>
+            <%=@workout.date_printed(@workout.date)%></li> 
+        </ul>
         <li>Time: <%=@workout.time%> <%=@workout.time_units%></li> 
         <%if @workout.comment != nil%>
         <li>Comments: <%=@workout.comment%></li> 

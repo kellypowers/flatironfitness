@@ -8,25 +8,25 @@
 </div>
 
 <div class="index">
-
    <ul>
-    <%@user.goals.each do |goal|%>
-    <br><br>
-        <ul class="list_title"><li><a href="/goals/<%=goal.id%>"><%=goal.category%></a></li> </ul>
+        <%@user.goals.each do |goal|%>
+        <br><br>
+            <ul class="list_title">
+                <li><a href="/goals/<%=goal.id%>"><%=goal.category%></a></li> 
+            </ul>
         <br>
         <li>Start Date: <%=goal.date_printed(goal.start_date)%></li>
         <li>End Date: <%=goal.date_printed(goal.end_date)%></li>
         <li>Time: <%=goal.time%> <%=goal.time_units%></li>
-        <%if goal.description != nil%>
-            <li> <%=goal.description%></li> 
-        <%end%>
-        <%if goal.is_current?%>
-            <label>This goal is current.</label>
-        <%else%>
-            <label>This is a past goal.</label>
-        <%end%>
+            <%if goal.description != nil%>
+                <li> <%=goal.description%></li> 
+            <%end%>
+            <%if goal.is_current?%>
+                <label>This goal is current.</label>
+            <%else%>
+                <label>This is a past goal.</label>
+            <%end%>
         <br>
-    <%end%> 
+        <%end%> 
     </ul>
-    
 </div> 

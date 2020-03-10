@@ -3,35 +3,33 @@
         <%= flash[:message] %>
     <% end %>
 </div>
-
 <div class="heading h2">
     <h2>Goal</h2> 
 </div>
-
+<div>
     <ul>  
         <li>Category: <%=@goal.category%> </li>
         <li>Start: <%=@goal.date_printed(@goal.start_date)%></li> 
         <li>End: <%=@goal.date_printed(@goal.end_date)%></li> 
         <li>Time: <%=@goal.time%> <%=@goal.time_units%></li> 
         <%if @goal.description != nil%>
-        <li>Description: <%=@goal.description%></li> 
+            <li>Description: <%=@goal.description%></li> 
         <%end%>
         <%workouts_in_goal = Workout.all_in_goal(@goal.category, @goal.start_date, @goal.end_date)%>
         <%min_done_for_goal = total_minutes_towards_goal(workouts_in_goal)%>
         <li>Status: 
-        <%if @goal.is_current?%>
-            This goal is in progress. <%=@goal.workout_progress(min_done_for_goal, @goal)%>
-        <%else%>
-            This goal has passed. <%=@goal.completed_goal_status(min_done_for_goal, @goal)%>
-        <%end%>
-
-
-</ul> 
-
-
+            <%if @goal.is_current?%>
+                This goal is in progress. <%=@goal.workout_progress(min_done_for_goal, @goal)%>
+            <%else%>
+                This goal has passed. <%=@goal.completed_goal_status(min_done_for_goal, @goal)%>
+            <%end%>
+        </li>
+    </ul> 
+</div>
 <form method="post" action="/goals/<%=@goal.id%>">
     <input id="hidden" type="hidden" name="_method" value="delete">
     <input class="submit_button" type="submit" value="Delete this goal">
 </form>
-
-<button onclick="window.location.href='/goals/<%=@goal.id%>/edit';">Edit this goal</button>
+<div>
+    <button onclick="window.location.href='/goals/<%=@goal.id%>/edit';">Edit this goal</button>
+</div>
