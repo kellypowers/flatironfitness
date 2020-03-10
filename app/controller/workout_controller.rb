@@ -45,7 +45,7 @@ class WorkoutController < ApplicationController
             end
             @workout.user_id = @user.id
             @workout.save
-            erb :'/workouts/index'
+            redirect '/workouts'
         end
     end
 
