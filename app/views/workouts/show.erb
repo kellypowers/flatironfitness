@@ -1,16 +1,20 @@
-<div class="heading h2">
-    <h2>Workout</h2> 
+<div id="flash_message">
+    <% if flash.include?(:message) %>
+        <%= flash[:message] %>
+    <% end %>
 </div>
 <div>
-    <ul>   
+    <ul>   <br><br>
+        
+            <label><li><%=@workout.category%>
+            <%=@workout.date_printed(@workout.date)%></li> </label>
         <ul>
-            <li><%=@workout.category%>
-            <%=@workout.date_printed(@workout.date)%></li> 
-        </ul>
+        <br>
         <li>Time: <%=@workout.time%> <%=@workout.time_units%></li> 
         <%if @workout.comment != nil%>
         <li>Comments: <%=@workout.comment%></li> 
         <%end%>
+        <ul>
     </ul> 
 </div>
 <div>

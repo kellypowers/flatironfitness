@@ -43,7 +43,7 @@ class GoalController < ApplicationController
     patch "/goals/:id" do 
         @goal = Goal.find(params[:id])
         @user = User.find(session[:user_id])
-        if params["goal"]["time"].to_f == 0.0
+        if !params["goal"]["time"].match(/^(\d*\.)?\d+$/)
             flash[:message] = "Please type a number in for Time"
              redirect to "/goals/#{@goal.id}/edit"
         else

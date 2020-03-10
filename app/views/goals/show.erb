@@ -4,23 +4,25 @@
     <% end %>
 </div>
 <div>
-    <ul>  
-        <li>Category: <%=@goal.category%> </li>
-        <li>Start: <%=@goal.date_printed(@goal.start_date)%></li> 
-        <li>End: <%=@goal.date_printed(@goal.end_date)%></li> 
-        <li>Time: <%=@goal.time%> <%=@goal.time_units%></li> 
-        <%if @goal.description != ""%>
-            <li>Description: <%=@goal.description%></li> 
-        <%end%>
-        <%workouts_in_goal = Workout.all_in_goal(@goal.category, @goal.start_date, @goal.end_date, @user)%>
-        <%min_done_for_goal = total_minutes_towards_goal(workouts_in_goal)%>
-        <li>Status: 
-            <%if @goal.is_current?%>
-                This goal is in progress. <%=@goal.workout_progress(min_done_for_goal, @goal)%>
-            <%else%>
-                This goal has passed. <%=@goal.completed_goal_status(min_done_for_goal, @goal)%>
-            <%end%>
-        </li>
+        <ul>  
+            <label><li> <%=@goal.category%> </li> </label>
+            <ul>
+                <li>Start: <%=@goal.date_printed(@goal.start_date)%>
+                  End: <%=@goal.date_printed(@goal.end_date)%></li> 
+                <li>Time: <%=@goal.time%> <%=@goal.time_units%></li> 
+                <%if @goal.description != ""%>
+                    <li>Description: <%=@goal.description%></li> 
+                <%end%>
+                <%workouts_in_goal = Workout.all_in_goal(@goal.category, @goal.start_date, @goal.end_date, @user)%>
+                <%min_done_for_goal = total_minutes_towards_goal(workouts_in_goal)%>
+                <li>Status: 
+                    <%if @goal.is_current?%>
+                        This goal is in progress. <%=@goal.workout_progress(min_done_for_goal, @goal)%>
+                    <%else%>
+                        This goal has passed. <%=@goal.completed_goal_status(min_done_for_goal, @goal)%>
+                    <%end%>
+                </li>
+            </ul>
     </ul> 
 </div>
 <form method="post" action="/goals/<%=@goal.id%>">

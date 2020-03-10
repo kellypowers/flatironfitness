@@ -81,12 +81,12 @@ ul a:hover {
     border-radius: 15px;
     border-color: black;
     border-style: solid;
-    width: 300px;
+    width: 200px;
     height: 20px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-color: rgb(48, 46, 46);
     color: white;
-
+    text-align: center;
 
 }
 
@@ -94,7 +94,7 @@ ul a:hover {
     text-decoration: none;
     font-size: small;
     color: white;
-
+    text-align: center;
     
 }
 

@@ -7,7 +7,7 @@ class WorkoutController < ApplicationController
     get '/workouts' do 
         @user = User.find(session[:user_id])
         @workouts = Workout.all
-        binding.pry
+        #binding.pry
         erb :'/workouts/index'
     end
 
@@ -31,7 +31,7 @@ class WorkoutController < ApplicationController
     post '/workouts' do 
         @user = User.find(session[:user_id])
         #check that time is a number not a string.
-        if params["workout"]["time"].match(/^(\d*\.)?\d+$/)
+        if !params["workout"]["time"].match(/^(\d*\.)?\d+$/)
             flash[:message] = "Please type a number in for Time"
             erb :'/workouts/new'
         else
@@ -52,9 +52,9 @@ class WorkoutController < ApplicationController
     patch "/workouts/:id" do 
         @workout = Workout.find(params[:id])
         @user = User.find(session[:user_id])
-        if params["workout"]["time"].to_f == 0.0
+        if !params["workout"]["time"].match(/^(\d*\.)?\d+$/)
             flash[:message] = "Please type in a valid number for amount of Time."
-            redirect to "/workuts/#{@workout.id}/edit"
+            redirect to "/workouts/#{@workout.id}/edit"
         else
             @workout.update(params["workout"])
             #if workout category has changed, see if there is a goal with that category and date and add ids to workout_goal table

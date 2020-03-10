@@ -7,18 +7,21 @@
     <h2>Workouts </h2> 
 </div>
 <div class="index">
-   <ul>
         <%@user.workouts.each do |workout|%>
         <br><br>
-            <ul class = "list_title">
-                <li><a href="workouts/<%=workout.id%>"><%=workout.category%></a></li> 
+        <ul class = "list_title">
+            <li><a href="workouts/<%=workout.id%>"><%=workout.category%></a></li> 
+            <ul>
+            <br>
+            <li>Date: <%=workout.date_printed(workout.date)%></li>
+            <li>Time: <%=workout.time%> <%=workout.time_units%></li>
+            <%if workout.comment != nil%>
+                <li> <%=workout.comment%></li> 
             </ul>
-        <br>
-        <li>Date: <%=workout.date_printed(workout.date)%></li>
-        <li>Time: <%=workout.time%> <%=workout.time_units%></li>
-        <%if workout.comment != nil%>
-            <li> <%=workout.comment%></li> 
-        <%end%>
+            <%end%>
+        </ul>
         <%end%> 
-    </ul>
 </div> 
+<div>
+    <button onclick="window.location.href='/workouts/new';">Add new workout</button>
+</div>
