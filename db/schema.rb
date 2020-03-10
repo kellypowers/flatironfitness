@@ -10,17 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_06_041258) do
+ActiveRecord::Schema.define(version: 2020_03_10_010025) do
 
-  create_table "goals", force: :cascade do |t|
-    t.string "category"
-    t.string "description"
-    t.integer "time"
-    t.string "time_units"
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.integer "user_id"
-  end
+# Could not dump table "goals" because of following StandardError
+#   Unknown type 'real' for column 'time'
 
   create_table "users", force: :cascade do |t|
     t.string "name"
@@ -33,13 +26,7 @@ ActiveRecord::Schema.define(version: 2020_03_06_041258) do
     t.integer "goal_id"
   end
 
-  create_table "workouts", force: :cascade do |t|
-    t.string "category"
-    t.integer "time"
-    t.string "time_units"
-    t.string "comment"
-    t.datetime "date"
-    t.integer "user_id"
-  end
+# Could not dump table "workouts" because of following StandardError
+#   Unknown type 'real' for column 'time'
 
 end

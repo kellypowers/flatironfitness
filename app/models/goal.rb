@@ -3,7 +3,7 @@ class Goal < ActiveRecord::Base
     has_many :workouts, through: :workout_goals
     belongs_to :user
 
-    #want these three methods in a module to go to both Goal and Workout
+    #want these four methods in a module to go to both Goal and Workout
         #puts date in format Month, DD, YYY
         def date_printed(dates)
             date = dates.to_s
@@ -30,6 +30,16 @@ class Goal < ActiveRecord::Base
                 time = self.time
             end
             time
+        end
+
+        #are these ids already present in workoutgoal
+        def already_present?(workoutid, goalid)
+            WorkoutGoal.all.each do |workout_goal_ids|
+                if workout_goal_ids.workout_id == workoutid && workout_goal_ids.goal_id == goalid 
+                    return true
+                end
+            end
+            false
         end
     
 
@@ -60,7 +70,7 @@ class Goal < ActiveRecord::Base
     def self.valid_date_and_category(category, user)
         valid_date_and_cat = []
         self.select_current.each do |each_current_goal|
-            if user.id == each_goal.user_id
+            if user.id == each_current_goal.user_id
                 if each_current_goal.category == category 
                     valid_date_and_cat << each_current_goal
                 end

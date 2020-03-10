@@ -9,16 +9,16 @@ class ApplicationController < Sinatra::Base
     set :session_secret, "fitnessprogress"
     set :views, Proc.new { File.join(root, "../views/") }
     set :public_folder, 'public'
-    set :show_exceptions, false #this is for line 19, if user tries to view workout/goal that has been deleted, rather than get an error page it will redirect home
+    # set :show_exceptions, false #this is for line 19, if user tries to view workout/goal that has been deleted, rather than get an error page it will redirect home
   end
 
   get '/' do
     redirect to '/users/home'
   end
 
-  error do 
-    redirect '/'
-  end
+  # error do 
+  #   redirect '/'
+  # end
 
   def current_user 
     @current_user ||= User.find_by_id(session[:user_id])

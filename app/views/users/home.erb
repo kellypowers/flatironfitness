@@ -9,18 +9,18 @@
 <div>
     <%@user.goals.each do |goal|%> 
         <%if goal.is_current?%> 
-        <br>
-            <%workouts_in_goal = Workout.all_in_goal(goal.category, goal.start_date, goal.end_date)%>
+        <br><br>
+            <%workouts_in_goal = Workout.all_in_goal(goal.category, goal.start_date, goal.end_date, @user)%>
             <%min_done_for_goal = total_minutes_towards_goal(workouts_in_goal)%>
-            <%=goal.category%> 
+            <label><%=goal.category%> 
             for
-            <%=goal.time%> <%=goal.time_units%>  
+            <%=goal.time%> <%=goal.time_units%>  </label>
             <br>
             From: <%=goal.date_printed(goal.start_date)%> Until:  <%=goal.date_printed(goal.end_date)%> 
             <br>
-            Description: <%=goal.description%> 
-            <br>
-            <br>
+            <%if goal.description != ""%>
+                Description: <%=goal.description%> 
+            <%end%>
             <%=goal.time_left(goal, min_done_for_goal)%> 
             <br>
             <%=goal.workout_progress(min_done_for_goal, goal)%> 
