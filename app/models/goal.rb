@@ -1,5 +1,6 @@
 class Goal < ActiveRecord::Base
     include DateAndTimeMethods
+    has_many :workout_goals
     has_many :workouts, through: :workout_goals
     belongs_to :user
 
