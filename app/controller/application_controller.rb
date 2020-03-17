@@ -40,19 +40,19 @@ class ApplicationController < Sinatra::Base
     end
 
     #validate user
-    def validate_user(string)
-      @user = User.find(session[:user_id])
-      if logged_in?
-          if @user.id == params[:id].to_i
-              erb :"/users/#{string}"
-          else 
-              flash[:message] = "You do not have permission to view that profile"
-              redirect "/users/#{@user.id}/#{string}"
-          end
-      else 
-          redirect to '/login'
-      end
-    end
+    # def validate_user(string)
+    #   @user = User.find(session[:user_id])
+    #   if logged_in?
+    #       if @user.id == params[:id].to_i
+    #           erb :"/users/#{string}"
+    #       else 
+    #           flash[:message] = "You do not have permission to view that profile"
+    #           redirect "/users/#{@user.id}/#{string}"
+    #       end
+    #   else 
+    #       redirect to '/login'
+    #   end
+    #end
   
     def ensure_auth(string)
         if string.user == current_user 
@@ -63,16 +63,16 @@ class ApplicationController < Sinatra::Base
         end
     end
 
-    def validate_workout(string)
-      @user = User.find(session[:user_id])
-      @workout = Workout.find_by_id(params[:id])
-        if @workout.user_id == @user.id 
-          erb :"/workouts/#{string}"
-        else
-          flash[:message] = "You can only view/edit your own workouts."
-          redirect '/workouts'
-        end
-    end
+    # def validate_workout(string)
+    #   @user = User.find(session[:user_id])
+    #   @workout = Workout.find_by_id(params[:id])
+    #     if @workout.user_id == @user.id 
+    #       erb :"/workouts/#{string}"
+    #     else
+    #       flash[:message] = "You can only view/edit your own workouts."
+    #       redirect '/workouts'
+    #     end
+    # end
 
-   end
+   #end
 end

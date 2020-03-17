@@ -41,24 +41,21 @@ class WorkoutController < ApplicationController
 
     #post to create new workout
     post '/workouts' do 
-        @workout = Workout.find(params[:id])
-        if ensure_auth(@workout)
-            #check that time is a number not a string.
-            if !params["workout"]["time"].match(/^(\d*\.)?\d+$/)
-                flash[:message] = "Please type a number in for Time"
-                erb :'/workouts/new'
-            else
-                @workout = Workout.create(params["workout"])
-                valid_goals = Goal.valid_date_and_category(@workout.category, @user)
-                #finds goals that apply to the workout and adds ids of workout and goal to workout_goal table
-                valid_goals.each do |goal|
-                    if @workout.is_in_current_goal_date?(goal.start_date, goal.end_date) && @workout.is_in_current_goal_category?(goal.category)
-                        WorkoutGoal.create(workout_id: @workout.id, goal_id: goal.id)
-                    end
+        #check that time is a number not a string.
+        if !params["workout"]["time"].match(/^(\d*\.)?\d+$/)
+            flash[:message] = "Please type a number in for Time"
+            erb :'/workouts/new'
+        else
+            @workout = Workout.create(params["workout"])
+            valid_goals = Goal.valid_date_and_category(@workout.category, current_user)
+            #finds goals that apply to the workout and adds ids of workout and goal to workout_goal table
+            valid_goals.each do |goal|
+                if @workout.is_in_current_goal_date?(goal.start_date, goal.end_date) && @workout.is_in_current_goal_category?(goal.category)
+                    WorkoutGoal.create(workout_id: @workout.id, goal_id: goal.id)
                 end
-                @workout.user_id = @user.id
-                @workout.save
             end
+            @workout.user_id = current_user.id
+            @workout.save
         end
     redirect '/workouts'
     end
