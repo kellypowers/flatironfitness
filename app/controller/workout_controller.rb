@@ -29,50 +29,75 @@ class WorkoutController < ApplicationController
 
     #post to create new workout
     post '/workouts' do 
+        @workout = Workout.find(params[:id])
         @user = User.find(session[:user_id])
-        #check that time is a number not a string.
-        if !params["workout"]["time"].match(/^(\d*\.)?\d+$/)
-            flash[:message] = "Please type a number in for Time"
-            erb :'/workouts/new'
-        else
-            @workout = Workout.create(params["workout"])
-            valid_goals = Goal.valid_date_and_category(@workout.category, @user)
-            #finds goals that apply to the workout and adds ids of workout and goal to workout_goal table
-            valid_goals.each do |goal|
-                if @workout.is_in_current_goal_date?(goal.start_date, goal.end_date) && @workout.is_in_current_goal_category?(goal.category)
-                    WorkoutGoal.create(workout_id: @workout.id, goal_id: goal.id)
+        if @workout.user != current_user 
+            flash[:message] = "You can only view/edit your own workouts."
+            redirect "/workouts/#{@workout.id}"
+            else
+            #check that time is a number not a string.
+            if !params["workout"]["time"].match(/^(\d*\.)?\d+$/)
+                flash[:message] = "Please type a number in for Time"
+                erb :'/workouts/new'
+            else
+                @workout = Workout.create(params["workout"])
+                valid_goals = Goal.valid_date_and_category(@workout.category, @user)
+                #finds goals that apply to the workout and adds ids of workout and goal to workout_goal table
+                valid_goals.each do |goal|
+                    if @workout.is_in_current_goal_date?(goal.start_date, goal.end_date) && @workout.is_in_current_goal_category?(goal.category)
+                        WorkoutGoal.create(workout_id: @workout.id, goal_id: goal.id)
+                    end
                 end
+                @workout.user_id = @user.id
+                @workout.save
+                redirect '/workouts'
             end
-            @workout.user_id = @user.id
-            @workout.save
-            redirect '/workouts'
         end
     end
 
     patch "/workouts/:id" do 
         @workout = Workout.find(params[:id])
         @user = User.find(session[:user_id])
-        if !params["workout"]["time"].match(/^(\d*\.)?\d+$/)
-            flash[:message] = "Please type in a valid number for amount of Time."
-            redirect to "/workouts/#{@workout.id}/edit"
+        if @workout.user != current_user 
+            flash[:message] = "You can only view/edit your own workouts."
+            redirect "/workouts/#{@workout.id}"
         else
-            @workout.update(params["workout"])
-            #if workout category has changed, see if there is a goal with that category and date and add ids to workout_goal table
-            if params["workout"]["category"] != @workout.category 
-                valid_goals = Goal.valid_date_and_category(@workout.category, @user)
-                valid_goals.each do |goal|
-                    if @workout.is_in_current_goal_date?(goal.start_date, goal.end_date) && @workout.is_in_current_goal_category?(goal.category)
-                        WorkoutGoal.create(workout_id: @workout.id, goal_id: goal.id)
+            if !params["workout"]["time"].match(/^(\d*\.)?\d+$/)
+                flash[:message] = "Please type in a valid number for amount of Time."
+                redirect to "/workouts/#{@workout.id}/edit"
+            else
+                @workout.update(params["workout"])
+                #if workout category has changed, see if there is a goal with that category and date and add ids to workout_goal table
+                if params["workout"]["category"] != @workout.category 
+                    valid_goals = Goal.valid_date_and_category(@workout.category, @user)
+                    valid_goals.each do |goal|
+                        if @workout.is_in_current_goal_date?(goal.start_date, goal.end_date) && @workout.is_in_current_goal_category?(goal.category)
+                            WorkoutGoal.create(workout_id: @workout.id, goal_id: goal.id)
+                        end
                     end
                 end
+                @workout.save
+                redirect to "/workouts/#{@workout.id}"
             end
-            @workout.save
-            redirect to "/workouts/#{@workout.id}"
         end
     end
 
+    # delete "/workouts/:id" do 
+
+    #     Workout.destroy(params[:id])
+    #     redirect to "/workouts"
+    # end
+
     delete "/workouts/:id" do 
-        Workout.destroy(params[:id])
-        redirect to "/workouts"
+        @user = User.find(session[:user_id])
+        workout = Workout.find(params[:id])
+        if workout.user == current_user
+            Workout.destroy(params[:id])
+            session.clear
+            redirect to "/"
+        else
+            flash[:message] = "You do not have permission to delete that workout"
+            redirect "/"
+        end
     end
 end

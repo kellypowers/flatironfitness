@@ -51,15 +51,13 @@ class ApplicationController < Sinatra::Base
           redirect to '/login'
       end
     end
-
-    def validate_goal(string)
-      @user = User.find(session[:user_id])
-      @goal = Goal.find_by_id(params[:id])
-        if @goal.user_id == @user.id 
-            erb :"/goals/#{string}"
-        else
-          flash[:message] = "You can only view/edit your own goals."
-          redirect "/goals"
+  
+    def ensure_auth(string)
+        if string.user != current_user 
+          flash[:message] = "You can only view/edit your own data."
+          return false
+        else 
+          true
         end
     end
 

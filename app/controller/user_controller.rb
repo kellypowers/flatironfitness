@@ -79,32 +79,37 @@ class UserController < ApplicationController
 
     patch '/users/:id' do 
         @user = User.find(session[:user_id])
-        #if user types in wrong password, get error message and redirect
-        if !@user.authenticate(params[:password])
-            flash[:message] = "Please type in your current password to make changes"
-            redirect to "/users/#{@user.id}/edit"
+        if @user.id != User.find(params[:id])
+            flash[:message] = "You can only edit your own account"
+            redirect "/users/#{@user.id}"
         else
-            @user.password = params[:password]
-            #if user tries to change password, check that both new passwords are the same and change the password
-            if !params["new_password"].empty? 
-                if params["new_password"] == params["new_password_2"]
-                    @user.password = params[:new_password]
-                    @user.save
-                else
-                    flash[:message] = "New passwords do not match"
-                    redirect "/users/#{@user.id}/edit"
+            #if user types in wrong password, get error message and redirect
+            if !@user.authenticate(params[:password])
+                flash[:message] = "Please type in your current password to make changes"
+                redirect to "/users/#{@user.id}/edit"
+            else
+                @user.password = params[:password]
+                #if user tries to change password, check that both new passwords are the same and change the password
+                if !params["new_password"].empty? 
+                    if params["new_password"] == params["new_password_2"]
+                        @user.password = params[:new_password]
+                        @user.save
+                    else
+                        flash[:message] = "New passwords do not match"
+                        redirect "/users/#{@user.id}/edit"
+                    end
                 end
+                if params["email"] != @user.email 
+                    @user.email = params[:email]
+                    @user.save
+                end
+                if params["name"] != @user.name 
+                    @user.name = params[:name]
+                    @user.save
+                end
+                flash[:message] = "Account info successfully edited"
+                redirect "/users/#{@user.id}/account"
             end
-            if params["email"] != @user.email 
-                @user.email = params[:email]
-                @user.save
-            end
-            if params["name"] != @user.name 
-                @user.name = params[:name]
-                @user.save
-            end
-            flash[:message] = "Account info successfully edited"
-            redirect "/users/#{@user.id}/account"
         end
     end
 
@@ -113,7 +118,6 @@ class UserController < ApplicationController
         redirect '/'
     end
 
-    #not sure if i need the validation here, since the button is only accessed within the user's account
     delete "/users/:id" do 
         @user = User.find(session[:user_id])
         if @user.id == params[:id].to_s
