@@ -101,4 +101,12 @@ class Goal < ActiveRecord::Base
         end
     end
 
+    def set_workouts
+        self.workouts.each do |workout|
+        if !self.already_present?(self.id, workout.id)
+            WorkoutGoal.create(workout_id: workout.id, goal_id: self.id)
+        end
+        end
+    end
+
 end

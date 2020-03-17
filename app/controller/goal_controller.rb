@@ -5,7 +5,7 @@ class GoalController < ApplicationController
         erb :'/goals/index'
     end
 
-    get '/goals/new' do 
+    get '/goals/new' do     
         @user = current_user
         erb :'/goals/new'
     end
@@ -36,17 +36,14 @@ class GoalController < ApplicationController
             flash[:message] = "Please type a number in for Time"
             erb :'/goals/new'
         else
-            @goal = Goal.create(params["goal"])
+            @goal = Goal.new(params["goal"])
             @goal.user_id = current_user.id 
+            #binding.pry
             #this goes back to add any already made workouts to goal if applicable and if not already present.
-            @goal.workouts.each do |workout|
-                if !@goal.already_present?(@goal.id, workout.id)
-                    WorkoutGoal.create(workout_id: workout.id, goal_id: @goal.id)
-                end
+            @goal.set_workouts
+            if @goal.save
+                redirect to '/users/home'
             end
-            @goal.save
-            redirect to '/users/home'
-
         end
         redirect to "/goals/new"  
     end
