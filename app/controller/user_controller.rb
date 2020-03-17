@@ -81,7 +81,7 @@ class UserController < ApplicationController
     patch '/users/:id' do 
         #if currentuser id does not equal params id redirect and give error
         @user = current_user
-        binding.pry
+        #binding.pry
         if @user.id != params[:id].to_i
             #binding.pry
             flash[:message] = "You can only edit your own account"

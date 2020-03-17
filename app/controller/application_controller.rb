@@ -38,6 +38,21 @@ class ApplicationController < Sinatra::Base
       end
       total
     end
+
+        #validate user
+    def validate_user(string)
+      @user = User.find(session[:user_id])
+      if logged_in?
+          if @user.id == params[:id].to_i
+              erb :"/users/#{string}"
+          else 
+              flash[:message] = "You do not have permission to view that profile"
+              redirect "/users/#{@user.id}/#{string}"
+          end
+      else 
+          redirect to '/login'
+      end
+    end
   
     def ensure_auth(string)
         if string.user == current_user 
@@ -47,5 +62,5 @@ class ApplicationController < Sinatra::Base
           return false
         end
     end
-
+  end
 end

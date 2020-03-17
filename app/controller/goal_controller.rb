@@ -26,7 +26,7 @@ class GoalController < ApplicationController
         if ensure_auth(@goal)
             erb :'/goals/edit'
         else
-            redirect "/goals/#{@goal.id}/edit"
+            redirect "/goals/#{@goal.id}"
         end
     end
 
