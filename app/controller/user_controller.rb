@@ -23,6 +23,7 @@ class UserController < ApplicationController
         end
     end
  
+    #which of these need auth protection? why / how would someone hijack/expose vulnerabilites?
     post '/signup' do
         existing_users = User.all.map{|each| each.email}
         if existing_users.include?(params[:user][:email])
@@ -78,8 +79,11 @@ class UserController < ApplicationController
     end
 
     patch '/users/:id' do 
-        @user = User.find(session[:user_id])
-        if @user.id != User.find(params[:id])
+        #if currentuser id does not equal params id redirect and give error
+        @user = current_user
+        binding.pry
+        if @user.id != params[:id].to_i
+            #binding.pry
             flash[:message] = "You can only edit your own account"
             redirect "/users/#{@user.id}"
         else
@@ -103,9 +107,10 @@ class UserController < ApplicationController
                     @user.email = params[:email]
                     @user.save
                 end
-                if params["name"] != @user.name 
+                if params[:name] != @user.name 
                     @user.name = params[:name]
                     @user.save
+                    #do i need all these saves after each one bc scope, is there wa better way to group so dry?
                 end
                 flash[:message] = "Account info successfully edited"
                 redirect "/users/#{@user.id}/account"

@@ -4,6 +4,7 @@ require 'rack-flash'
 class WorkoutController < ApplicationController
 
     #gets index of all workouts for user, Read
+    #can this be hijacked to view other users workouts?
     get '/workouts' do 
         @user = User.find(session[:user_id])
         @workouts = Workout.all
@@ -19,22 +20,29 @@ class WorkoutController < ApplicationController
 
     #shows individual workouts
     get '/workouts/:id' do 
-       validate_workout("show")
+       @workout = Workout.find_by_id(params[:id])
+       if ensure_auth(@workout)
+           erb :"workouts/show"
+       else 
+           redirect '/workouts'
+       end
     end
 
     #edits individual workouts
     get '/workouts/:id/edit' do 
-        validate_workout("edit")
+        #validate_workout("edit")
+        @workout = Workout.find_by_id(params[:id])
+        if ensure_auth(@workout)
+            erb :"workouts/edit"
+        else 
+            redirect '/workouts'
+        end
     end
 
     #post to create new workout
     post '/workouts' do 
         @workout = Workout.find(params[:id])
-        @user = User.find(session[:user_id])
-        if @workout.user != current_user 
-            flash[:message] = "You can only view/edit your own workouts."
-            redirect "/workouts/#{@workout.id}"
-            else
+        if ensure_auth(@workout)
             #check that time is a number not a string.
             if !params["workout"]["time"].match(/^(\d*\.)?\d+$/)
                 flash[:message] = "Please type a number in for Time"
@@ -50,36 +58,33 @@ class WorkoutController < ApplicationController
                 end
                 @workout.user_id = @user.id
                 @workout.save
-                redirect '/workouts'
             end
         end
+    redirect '/workouts'
     end
 
     patch "/workouts/:id" do 
         @workout = Workout.find(params[:id])
-        @user = User.find(session[:user_id])
-        if @workout.user != current_user 
-            flash[:message] = "You can only view/edit your own workouts."
-            redirect "/workouts/#{@workout.id}"
-        else
-            if !params["workout"]["time"].match(/^(\d*\.)?\d+$/)
-                flash[:message] = "Please type in a valid number for amount of Time."
-                redirect to "/workouts/#{@workout.id}/edit"
-            else
-                @workout.update(params["workout"])
-                #if workout category has changed, see if there is a goal with that category and date and add ids to workout_goal table
-                if params["workout"]["category"] != @workout.category 
-                    valid_goals = Goal.valid_date_and_category(@workout.category, @user)
-                    valid_goals.each do |goal|
-                        if @workout.is_in_current_goal_date?(goal.start_date, goal.end_date) && @workout.is_in_current_goal_category?(goal.category)
-                            WorkoutGoal.create(workout_id: @workout.id, goal_id: goal.id)
+        if ensure_auth(@workout)
+
+                if !params["workout"]["time"].match(/^(\d*\.)?\d+$/)
+                    flash[:message] = "Please type in a valid number for amount of Time."
+                    redirect to "/workouts/#{@workout.id}/edit"
+                else
+                    @workout.update(params["workout"])
+                    #if workout category has changed, see if there is a goal with that category and date and add ids to workout_goal table
+                    if params["workout"]["category"] != @workout.category 
+                        valid_goals = Goal.valid_date_and_category(@workout.category, @user)
+                        valid_goals.each do |goal|
+                            if @workout.is_in_current_goal_date?(goal.start_date, goal.end_date) && @workout.is_in_current_goal_category?(goal.category)
+                                WorkoutGoal.create(workout_id: @workout.id, goal_id: goal.id)
+                            end
                         end
                     end
+                    @workout.save
                 end
-                @workout.save
-                redirect to "/workouts/#{@workout.id}"
-            end
         end
+        redirect to "/workouts/#{@workout.id}"
     end
 
     # delete "/workouts/:id" do 
@@ -89,15 +94,15 @@ class WorkoutController < ApplicationController
     # end
 
     delete "/workouts/:id" do 
-        @user = User.find(session[:user_id])
-        workout = Workout.find(params[:id])
-        if workout.user == current_user
+        @workout = Workout.find(params[:id])
+        if ensure_auth(@workout)
             Workout.destroy(params[:id])
             session.clear
-            redirect to "/"
+            redirect to "/workouts/index"
         else
             flash[:message] = "You do not have permission to delete that workout"
-            redirect "/"
+            redirect "/workouts/#{@workout.id}"
         end
     end
+
 end

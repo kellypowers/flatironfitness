@@ -21,7 +21,9 @@ class ApplicationController < Sinatra::Base
   end
 
   def current_user 
+    #@current_user || current_user = User.find_by_id(session[:user_id])
     @current_user ||= User.find_by_id(session[:user_id])
+    #@current_user == User.find(session[:user_id])
   end
 
   helpers do
@@ -53,11 +55,11 @@ class ApplicationController < Sinatra::Base
     end
   
     def ensure_auth(string)
-        if string.user != current_user 
+        if string.user == current_user 
+          return true
+        else
           flash[:message] = "You can only view/edit your own data."
           return false
-        else 
-          true
         end
     end
 
