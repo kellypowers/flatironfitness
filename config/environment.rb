@@ -1,13 +1,14 @@
 
+require 'sinatra'
+require 'activerecord'
+# configure :development do
+#   ActiveRecord::Base.establish_connection(
+#   :adapter => "sqlite3",
+#   :database => "db/#{ENV['SINATRA_ENV']}.sqlite"
+# )
+# end
 
-configure :development do
-  ActiveRecord::Base.establish_connection(
-  :adapter => "sqlite3",
-  :database => "db/#{ENV['SINATRA_ENV']}.sqlite"
-)
-end
-
-configure :production do
+# configure :production do
   db = URI.parse(ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
 
   ActiveRecord::Base.establish_connection(
@@ -18,4 +19,4 @@ configure :production do
     :database => db.path[1..-1],
     :encoding => 'utf8'
   )
-end
+# end
