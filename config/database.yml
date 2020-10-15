@@ -6,7 +6,7 @@ development:
   timeout: 5000
 
 production:
-  url: 'HEROKU_POSTGRESQL_PINK_URL'
+  url: ENV['DATABASE_URL']
   adapter: postgresql
   database: mydb
   host: localhost 

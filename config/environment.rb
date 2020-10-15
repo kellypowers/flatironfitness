@@ -1,11 +1,6 @@
 require 'sinatra'
 
-configure :development do
-  ActiveRecord::Base.establish_connection(
-  :adapter => "sqlite3",
-  :database => "db/#{ENV['SINATRA_ENV']}.sqlite"
-)
-end
+
 
 configure :production do
   db = URI.parse(ENV['HEROKU_POSTGRESQL_PINK_URL'] || 'postgres://localhost/mydb')
