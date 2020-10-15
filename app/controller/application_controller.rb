@@ -4,21 +4,17 @@ require "./app/models/user"
 class ApplicationController < Sinatra::Base
 
   configure do
-    set :views, "app/views" #dont need this bc line 10
     enable :sessions
     set :session_secret, "fitnessprogress"
     set :views, Proc.new { File.join(root, "../views/") }
     set :public_folder, 'public'
     #set :show_exceptions, false #this is for line 19, if user tries to view workout/goal that has been deleted, rather than get an error page it will redirect home
+
   end
 
   get '/' do
     redirect to '/users/home'
   end
-
-  # error do 
-  #   redirect '/'
-  # end
 
   def current_user 
     #@current_user || current_user = User.find_by_id(session[:user_id])
@@ -27,6 +23,7 @@ class ApplicationController < Sinatra::Base
   end
 
   helpers do
+
     def logged_in?
       !!current_user
     end
@@ -41,9 +38,9 @@ class ApplicationController < Sinatra::Base
 
         #validate user
     def validate_user(string)
-      @user = User.find(session[:user_id])
+      @user = current_user
       if logged_in?
-          if @user.id == params[:id].to_i
+          if current_user.id == params[:id].to_i
               erb :"/users/#{string}"
           else 
               flash[:message] = "You do not have permission to view that profile"
@@ -53,14 +50,36 @@ class ApplicationController < Sinatra::Base
           redirect to '/login'
       end
     end
-  
-    def ensure_auth(string)
-        if string.user == current_user 
-          return true
+
+
+    def validate_goal(anything)
+      if anything.user != current_user
+        flash[:message] = "You can only view/edit your own goals."
+        redirect "/goals"
+      end
+    end
+
+    def validate_workout(string)
+      @user = User.find(session[:user_id])
+      @workout = Workout.find_by_id(params[:id])
+        if @workout.user_id == @user.id 
+          erb :"/workouts/#{string}"
         else
-          flash[:message] = "You can only view/edit your own data."
-          return false
+          flash[:message] = "You can only view/edit your own workouts."
+          redirect '/workouts'
         end
     end
+
+  
+    # def ensure_auth(string)
+    #     if string.user == current_user 
+    #       return true
+    #     else
+    #       flash[:message] = "You can only view/edit your own data."
+    #       return false
+    #     end
+    # end
+
   end
+
 end
