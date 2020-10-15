@@ -1,7 +1,4 @@
-require 'sinatra'
-require 'activerecord'
-require 'sinatra-activerecord' 
-require 'rake'
+
 configure :development do
   ActiveRecord::Base.establish_connection(
   :adapter => "sqlite3",
