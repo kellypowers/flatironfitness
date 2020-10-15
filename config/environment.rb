@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'activerecord', '~> 5.2'
+require 'activerecord'
 require 'sinatra-activerecord' 
 require 'rake'
 configure :development do
